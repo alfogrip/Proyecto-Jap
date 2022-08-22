@@ -4,7 +4,6 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="google-signin-client_id" content="466358509631-1k6tr954517r8ku98bp8qkt4aj5jdreb.apps.googleusercontent.com">
   <title>eMercado - Todo lo que busques está aquí</title>
   <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -19,40 +18,39 @@
 <body>
   <main class="mt-5 text-center">
     <div class="container">
-     <form action="" method="get" id="form-login">
-      <img class="mt-4" src="img/login.png" alt="e-commerce login" width="250">
-      <h1 class="h2">Inicio de sesión</h1>
-      <div class="d-flex flex-column align-items-center" id="form-email">
-        <label for="email">Email</label>
-        <input class="form-control w-25" type="email" id="email" name="email" placeholder="Email">
-        <p class="text-danger" id="p-email"></p>
-      </div>
-      <div class="d-flex flex-column align-items-center mt-1" id="form-pass">
-        <label for="pass">Contraseña</label>
-        <input class="form-control w-25" type="password" id="pass" name="password" placeholder="Contraseña">
-        <p class="text-danger" id="p-pass"></p>
-      </div>
-      <button class="mt-2 btn btn-md btn-primary" type="submit">Ingresar</button>
-      <div id="g_id_onload"
-         data-client_id="466358509631-1k6tr954517r8ku98bp8qkt4aj5jdreb.apps.googleusercontent.com"
-         data-callback="handleCredentialResponse">
+      <form action="" method="get" id="form-login">
+        <img class="mt-4" src="img/login.png" alt="e-commerce login" width="250">
+        <h1 class="h2">Inicio de sesión</h1>
+        <div class="d-flex flex-column align-items-center" id="form-email">
+          <label for="email">Email</label>
+          <input class="form-control w-25" type="email" id="email" name="email" placeholder="Email">
+          <p class="text-danger" id="p-email"></p>
+        </div>
+        <div class="d-flex flex-column align-items-center mt-1" id="form-pass">
+          <label for="pass">Contraseña</label>
+          <input class="form-control w-25" type="password" id="pass" name="password" placeholder="Contraseña">
+          <p class="text-danger" id="p-pass"></p>
+        </div>
+        <div class="g_id_signin"
+          data-type="standard"
+          data-shape="rectangular"
+          data-theme="outline"
+          data-text="$ {button.text}"
+          data-size="large"
+          data-logo_alignment="center">
+        </div>
+        <button class="mt-2 btn btn-md btn-primary" type="submit">Ingresar</button>
+      </form>   
     </div>
-    <div class="g_id_signin" data-type="standard"></div>
-      <div id="g_id_onload"
-         data-client_id="466358509631-1k6tr954517r8ku98bp8qkt4aj5jdreb.apps.googleusercontent.com"
-         data-login_uri="https://alfogrip.github.io/proyectojap/"
-         data-auto_prompt="false">
-      </div>
-      <div class="g_id_signin"
-         data-type="standard"
-         data-size="large"
-         data-theme="outline"
-         data-text="sign_in_with"
-         data-shape="rectangular"
-         data-logo_alignment="left">
-      </div>
-     </form>
+    <div id="g_id_onload"
+     data-client_id="466358509631-1k6tr954517r8ku98bp8qkt4aj5jdreb.apps.googleusercontent.com"
+     data-context="signin"
+     data-ux_mode="popup"
+     data-login_uri=""
+     data-nonce=""
+     data-auto_prompt="false">
     </div>
+
   </main>
   <footer class="text-muted">
     <div class="container">
@@ -65,7 +63,7 @@
     </div>
   </footer>
   <script src="js/login.js"></script>
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 </body>
 
