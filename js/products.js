@@ -1,40 +1,44 @@
 let productsArray = [];
 let userEmail = localStorage.getItem("userEmail");
+let catID = localStorage.getItem("catID");
+let PRODUCTS_ID_URL = `${PRODUCTS_URL}${catID}${EXT_TYPE}`;
 
-// Agrega el email al encabezado
+// Agrega el email al encabezado.
 document.getElementById("profile").innerHTML = `${userEmail}`;
 
+// Función que despliega una lista con los productos correspondientes a su categoría.
 function showProducts(array){
-    let catCars = "";
+    let htmlContent = "";
     for(let i = 0; i < array.length; i++){
-        let car = array[i];
-        catCars += 
+        let product = array[i];
+        htmlContent += 
             `<div class="list-group-item list-group-item-action">
                 <div class="row">
                     <div class="col-3">
-                        <img src="${car.image}" alt="product image" class="img-thumbnail">
+                        <img src="${product.image}" alt="product image" class="img-thumbnail">
                     </div>
                     <div class="col">
                         <div class="d-flex w-100 justify-content-between">
                             <div class="mb-1">
-                                <h4>${car.name} - ${car.currency} ${car.cost}</h4> 
-                                <p>${car.description}</p> 
+                                <h4>${product.name} - ${product.currency} ${product.cost}</h4> 
+                                <p>${product.description}</p> 
                             </div>
-                            <small class="text-muted">${car.soldCount} vendidos</small> 
+                            <small class="text-muted">${product.soldCount} vendidos</small> 
                         </div>
                     </div>
                 </div>  
             </div>`
     }
-    document.getElementById("product-list").innerHTML = catCars;
+    document.getElementById("product-list").innerHTML = htmlContent;
  }
 
 document.addEventListener("DOMContentLoaded", function(){
-    getJSONData(PRODUCT_CAR_URL).then(objProduct => {
+
+    getJSONData(PRODUCTS_ID_URL).then(objProduct => {
         if (objProduct.status === "ok") {
             productsArray = objProduct.data.products;
             document.getElementById("product-title").innerHTML = `<h2>Productos</h2>
-            <p>Verás aquí todos los productos de la categoría ${objProduct.data.catName}</p>`;
+                <p>Verás aquí todos los productos de la categoría ${objProduct.data.catName}</p>`;
             showProducts(productsArray);
         }
     });
