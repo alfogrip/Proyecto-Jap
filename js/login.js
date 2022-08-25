@@ -1,23 +1,26 @@
 document.addEventListener("DOMContentLoaded",function(){
 
-    let userEmail = document.getElementById("email");
-    let userPass = document.getElementById("pass");
+    let email = document.getElementById("email");
+    let pass = document.getElementById("pass");
     let pEmail = "Ingrese un email";
     let pPass = "Ingrese una contraseña";
 
     document.getElementById("form-login").addEventListener("submit",function(event){
         event.preventDefault();
+
+        localStorage.setItem("userEmail",email.value);
+        localStorage.setItem("userPass",pass.value);
         
-        if (userEmail.value == "" && userPass.value == ""){
-            userEmail.style.border = "red solid 1px";
-            userPass.style.border = "red solid 1px";
+        if (email.value == "" && pass.value == ""){
+            email.style.border = "red solid 1px";
+            pass.style.border = "red solid 1px";
             document.getElementById("p-email").innerHTML = pEmail;
             document.getElementById("p-pass").innerHTML = pPass;
-        } else if (userEmail.value == ''){
-            userEmail.style.border = "red solid 1px";
+        } else if (email.value == ''){
+            email.style.border = "red solid 1px";
             document.getElementById("p-email").innerHTML = pEmail;
-        } else if(userPass.value == ''){
-            userPass.style.border = "red solid 1px";
+        } else if(pass.value == ''){
+            pass.style.border = "red solid 1px";
             document.getElementById("p-pass").innerHTML = pPass;
         } else{
             window.location.href = "home.html";

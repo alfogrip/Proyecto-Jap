@@ -1,6 +1,7 @@
 let productCost = 0;
 let productCount = 0;
 let comissionPercentage = 0.13;
+let userEmail = localStorage.getItem("userEmail");
 let MONEY_SYMBOL = "$";
 let DOLLAR_CURRENCY = "Dólares (USD)";
 let PESO_CURRENCY = "Pesos Uruguayos (UYU)";
@@ -8,6 +9,10 @@ let DOLLAR_SYMBOL = "USD ";
 let PESO_SYMBOL = "UYU ";
 let PERCENTAGE_SYMBOL = '%';
 let MSG = "FUNCIONALIDAD NO IMPLEMENTADA";
+
+// Agrega el email en el encabezado
+document.getElementById("profile").innerHTML = `${userEmail}`;
+
 
 //Función que se utiliza para actualizar los costos de publicación
 function updateTotalCosts(){

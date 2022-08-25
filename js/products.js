@@ -1,4 +1,8 @@
 let productsArray = [];
+let userEmail = localStorage.getItem("userEmail");
+
+// Agrega el email al encabezado
+document.getElementById("profile").innerHTML = `${userEmail}`;
 
 function showProducts(array){
     let catCars = "";

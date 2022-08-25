@@ -5,6 +5,10 @@ let currentCategoriesArray = [];
 let currentSortCriteria = undefined;
 let minCount = undefined;
 let maxCount = undefined;
+let userEmail = localStorage.getItem("userEmail");
+
+// Agrega el email en el encabezado
+document.getElementById("profile").innerHTML = `${userEmail}`;
 
 function sortCategories(criteria, array){
     let result = [];
