@@ -1,9 +1,11 @@
-const ORDER_DESC_BY_PRICE = "DESC";
-const ORDER_ASC_BY_PRICE = "ASC";
-const ORDER_DESC_BY_PROD_COUNT = "Rel";
+const ORDER_DESC_BY_PRICE = "Desc";
+const ORDER_ASC_BY_PRICE = "Asc";
+const ORDER_DESC_BY_PROD_COUNT = "Count";
 let currentSortCriteria = undefined;
 let currentProductsArray = [];
 let productsArray = [];
+let minPrice = undefined;
+let maxPrice = undefined;
 let userEmail = localStorage.getItem("userEmail");
 let catID = localStorage.getItem("catID");
 let PRODUCTS_ID_URL = `${PRODUCTS_URL}${catID}${EXT_TYPE}`;
@@ -35,6 +37,14 @@ function sortProducts(criteria, array){
         });
     }
     return result;
+};
+
+function filterProductsByPrice(array){
+    let result = array.filter( elem => {
+        return elem.cost >= minPrice && elem.cost <= maxPrice;
+    });
+    return result;
+
 };
 
 // Función que despliega una lista con los productos correspondientes a su categoría.
@@ -85,15 +95,35 @@ document.addEventListener("DOMContentLoaded", function(){
 
     document.getElementById("sortDescByPrice").addEventListener("click",function(){
         sortAndShowProducts(ORDER_DESC_BY_PRICE, productsArray);
-        
     });
     document.getElementById("sortAscByPrice").addEventListener("click",function(){
         sortAndShowProducts(ORDER_ASC_BY_PRICE, productsArray);
-        
     });
     document.getElementById("sortDescByCount").addEventListener("click",function(){
         sortAndShowProducts(ORDER_DESC_BY_PROD_COUNT, productsArray);
-        
+    });
+    document.getElementById("filterButton").addEventListener("click",function(){
+        let inputMinCost = document.getElementById("filterMinPrice").value;
+        let inputMaxCost = document.getElementById("filterMaxPrice").value;
+
+        if(inputMinCost != "" && inputMinCost != undefined ){
+            minPrice = inputMinCost;
+        };
+        if(inputMaxCost != "" && inputMaxCost != undefined ){
+            maxPrice = inputMaxCost;
+        };
+
+        currentProductsArray = filterProductsByPrice(productsArray);
+        showProducts(currentProductsArray);
+    });
+    document.getElementById("clearButton").addEventListener("click",function(){
+        document.getElementById("filterMinPrice").value = "";
+        document.getElementById("filterMaxPrice").value = "";
+
+        minPrice = undefined;
+        maxPrice = undefined;
+
+        showProducts(productsArray);
     });
 
 });
