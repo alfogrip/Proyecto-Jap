@@ -1,5 +1,8 @@
+let userEmail = localStorage.getItem("userEmail");
+
 document.addEventListener("DOMContentLoaded", function(){
-    let userEmail = localStorage.getItem("userEmail");
+    
+    document.getElementById("profile").innerHTML = `${userEmail}`;  
 
     document.getElementById("autos").addEventListener("click", function() {
         localStorage.setItem("catID", 101);
@@ -14,5 +17,4 @@ document.addEventListener("DOMContentLoaded", function(){
         window.location = "products.html"
     });
 
-    document.getElementById("profile").innerHTML = `${userEmail}`;
 });

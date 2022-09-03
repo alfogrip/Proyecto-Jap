@@ -7,9 +7,6 @@ let minCount = undefined;
 let maxCount = undefined;
 let userEmail = localStorage.getItem("userEmail");
 
-// Agrega el email en el encabezado
-document.getElementById("profile").innerHTML = `${userEmail}`;
-
 function sortCategories(criteria, array){
     let result = [];
     if (criteria === ORDER_ASC_BY_NAME)
@@ -99,6 +96,9 @@ document.addEventListener("DOMContentLoaded", function(e){
             //sortAndShowCategories(ORDER_ASC_BY_NAME, resultObj.data);
         }
     });
+
+    // Agrega el email en el encabezado
+    document.getElementById("profile").innerHTML = `${userEmail}`;
 
     document.getElementById("sortAsc").addEventListener("click", function(){
         sortAndShowCategories(ORDER_ASC_BY_NAME);

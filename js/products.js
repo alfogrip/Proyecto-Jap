@@ -6,13 +6,9 @@ let currentProductsArray = [];
 let productsArray = [];
 let minPrice = undefined;
 let maxPrice = undefined;
-// let search = "";
 let userEmail = localStorage.getItem("userEmail");
 let catID = localStorage.getItem("catID");
-let PRODUCTS_ID_URL = `${PRODUCTS_URL}${catID}${EXT_TYPE}`;
-
-// Agrega el email al encabezado.
-document.getElementById("profile").innerHTML = `${userEmail}`;
+let PRODUCTS_ID_URL = `${PRODUCTS_URL}${catID}${EXT_TYPE}`; 
 
 function sortProducts(criteria, array){
     let result = [];
@@ -94,7 +90,7 @@ function showProducts(array){
 
 document.addEventListener("DOMContentLoaded", function(){
     
-    getJSONData(PRODUCTS_ID_URL).then(objProduct => {
+    getJSONData(PRODUCTS_ID_URL).then(objProduct => { 
         if (objProduct.status === "ok") {
             productsArray = objProduct.data.products;
             document.getElementById("product-title").innerHTML = `<h2>Productos</h2>
@@ -103,15 +99,21 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     });
 
+    // Agrega el email al encabezado.
+    document.getElementById("profile").innerHTML = `${userEmail}`;
+
     document.getElementById("sortDescByPrice").addEventListener("click",function(){
         sortAndShowProducts(ORDER_DESC_BY_PRICE, productsArray);
     });
+
     document.getElementById("sortAscByPrice").addEventListener("click",function(){
         sortAndShowProducts(ORDER_ASC_BY_PRICE, productsArray);
     });
+
     document.getElementById("sortDescByCount").addEventListener("click",function(){
         sortAndShowProducts(ORDER_DESC_BY_PROD_COUNT, productsArray);
     });
+
     document.getElementById("filterButton").addEventListener("click",function(){
         let inputMinCost = document.getElementById("filterMinPrice").value;
         let inputMaxCost = document.getElementById("filterMaxPrice").value;
@@ -126,6 +128,7 @@ document.addEventListener("DOMContentLoaded", function(){
         currentProductsArray = filterProductsByPrice(productsArray);
         showProducts(currentProductsArray);
     });
+
     document.getElementById("clearButton").addEventListener("click",function(){
         document.getElementById("filterMinPrice").value = "";
         document.getElementById("filterMaxPrice").value = "";

@@ -26,7 +26,5 @@ document.addEventListener("DOMContentLoaded",function(){
             window.location.href = "home.html";
         }
     });
-    // Inicio de sesión con Google
-
 
 });
