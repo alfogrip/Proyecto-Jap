@@ -1,16 +1,16 @@
+let email = document.getElementById("email");
+let pass = document.getElementById("pass");
+let pEmail = "Ingrese un email";
+let pPass = "Ingrese una contraseña"
+
 document.addEventListener("DOMContentLoaded",function(){
 
-    let email = document.getElementById("email");
-    let pass = document.getElementById("pass");
-    let pEmail = "Ingrese un email";
-    let pPass = "Ingrese una contraseña";
-
     document.getElementById("form-login").addEventListener("submit",function(event){
-        event.preventDefault();
+        event.preventDefault(); 
 
         localStorage.setItem("userEmail",email.value);
-        localStorage.setItem("userPass",pass.value);
-        
+        localStorage.setItem("userPass",pass.value);  
+
         if (email.value == "" && pass.value == ""){
             email.style.border = "red solid 1px";
             pass.style.border = "red solid 1px";
@@ -25,7 +25,5 @@ document.addEventListener("DOMContentLoaded",function(){
         } else{
             window.location.href = "home.html";
         }
-
     });
-
 });
