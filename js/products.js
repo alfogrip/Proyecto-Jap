@@ -6,6 +6,7 @@ let currentProductsArray = [];
 let productsArray = [];
 let minPrice = undefined;
 let maxPrice = undefined;
+// let search = "";
 let userEmail = localStorage.getItem("userEmail");
 let catID = localStorage.getItem("catID");
 let PRODUCTS_ID_URL = `${PRODUCTS_URL}${catID}${EXT_TYPE}`;
@@ -47,12 +48,21 @@ function filterProductsByPrice(array){
 
 };
 
+function searchProducts(array,key){
+    let result = array.filter( elem => {
+        let title = elem.name.toLowerCase();
+        let description = elem.description.toLowerCase();
+        return title.includes(key) || description.includes(key);
+    });
+    return result; 
+}
+
 // Función que despliega una lista con los productos correspondientes a su categoría.
 function showProducts(array){
-    let htmlContent = "";
+    let htmlContentToAppend = "";
     for(let i = 0; i < array.length; i++){
         let product = array[i];
-        htmlContent += 
+        htmlContentToAppend += 
             `<div class="list-group-item list-group-item-action">
                 <div class="row">
                     <div class="col-3">
@@ -70,7 +80,7 @@ function showProducts(array){
                 </div>  
             </div>`
     }
-    document.getElementById("product-list").innerHTML = htmlContent;
+    document.getElementById("product-list").innerHTML = htmlContentToAppend;
  };
 
  function sortAndShowProducts(sortCriteria, productsArray){
@@ -119,11 +129,16 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("clearButton").addEventListener("click",function(){
         document.getElementById("filterMinPrice").value = "";
         document.getElementById("filterMaxPrice").value = "";
-
         minPrice = undefined;
         maxPrice = undefined;
-
         showProducts(productsArray);
     });
+
+    document.getElementById("searchFilter").addEventListener("keyup",function(){
+        let search = document.getElementById("searchFilter").value
+        currentProductsArray = searchProducts(productsArray,search);
+        showProducts(currentProductsArray);
+
+    })
 
 });
