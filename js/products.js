@@ -1,16 +1,16 @@
-const ORDER_DESC_BY_PRICE = "Desc";
+const ORDER_DESC_BY_PRICE = "Desc";  
 const ORDER_ASC_BY_PRICE = "Asc";
 const ORDER_DESC_BY_PROD_COUNT = "Count";
-let currentSortCriteria = undefined;
-let currentProductsArray = [];
+let currentSortCriteria = undefined; 
+let currentProductsArray = [];  
 let productsArray = [];
-let minPrice = undefined;
+let minPrice = undefined; 
 let maxPrice = undefined;
 let userEmail = localStorage.getItem("userEmail");
 let catID = localStorage.getItem("catID");
 let PRODUCTS_ID_URL = `${PRODUCTS_URL}${catID}${EXT_TYPE}`; 
 
-function sortProducts(criteria, array){
+function sortProducts(criteria, array){  
     let result = [];
     if (criteria === ORDER_DESC_BY_PRICE){
         result = array.sort(function(a,b){
@@ -51,41 +51,47 @@ function searchProducts(array,key){
         return title.includes(key) || description.includes(key);
     });
     return result; 
-}
+};
+
+function setProductID(id) {
+    localStorage.setItem("prodID", id);
+    window.location = "product-info.html"
+};
 
 // Función que despliega una lista con los productos correspondientes a su categoría.
 function showProducts(array){
     let htmlContentToAppend = "";
     for(let i = 0; i < array.length; i++){
         let product = array[i];
-        htmlContentToAppend += 
-            `<div class="list-group-item list-group-item-action">
-                <div class="row">
-                    <div class="col-3">
-                        <img src="${product.image}" alt="product image" class="img-thumbnail">
-                    </div>
-                    <div class="col">
-                        <div class="d-flex w-100 justify-content-between">
-                            <div class="mb-1">
-                                <h4>${product.name} - ${product.currency} ${product.cost}</h4> 
-                                <p>${product.description}</p> 
-                            </div>
-                            <small class="text-muted">${product.soldCount} vendidos</small> 
+        htmlContentToAppend += `
+        <div onclick="setProductID(${product.id})" class="list-group-item list-group-item-action cursor-active">
+            <div class="row">
+                <div class="col-3">
+                    <img src="${product.image}" alt="product image" class="img-thumbnail">
+                </div>
+                <div class="col">
+                    <div class="d-flex w-100 justify-content-between">
+                        <div class="mb-1">
+                            <h4>${product.name} - ${product.currency} ${product.cost}</h4> 
+                            <p>${product.description}</p> 
                         </div>
+                        <small class="text-muted">${product.soldCount} vendidos</small> 
                     </div>
-                </div>  
-            </div>`
+                </div>
+            </div>  
+        </div>
+        `
     }
     document.getElementById("product-list").innerHTML = htmlContentToAppend;
  };
 
  function sortAndShowProducts(sortCriteria, productsArray){
-    currentSortCriteria = sortCriteria;
+    currentSortCriteria = sortCriteria; 
     if(productsArray != undefined){
         currentProductsArray = productsArray;
     };
-    currentProductsArray = sortProducts(currentSortCriteria, currentProductsArray);
-    showProducts(currentProductsArray);
+    currentProductsArray = sortProducts(currentSortCriteria, currentProductsArray); 
+    showProducts(currentProductsArray); 
 };
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -104,7 +110,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     document.getElementById("sortDescByPrice").addEventListener("click",function(){
         sortAndShowProducts(ORDER_DESC_BY_PRICE, productsArray);
-    });
+    });  
 
     document.getElementById("sortAscByPrice").addEventListener("click",function(){
         sortAndShowProducts(ORDER_ASC_BY_PRICE, productsArray);
