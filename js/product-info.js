@@ -8,48 +8,53 @@ let PRODUCT_COMMENTS_ID_URL = `${PRODUCT_INFO_COMMENTS_URL}${prodID}${EXT_TYPE}`
 
 function addStarRating(rate){
     let htmlContentToAppend = "";
-    htmlContentToAppend += `
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-        `
-    if(rate == 2){
-        htmlContentToAppend = `
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-        `
-    } else if(rate == 3){
-        htmlContentToAppend = `
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-        `
-    }
-    else if(rate == 4){
-        htmlContentToAppend = `
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star"></span>
-        `
-    }
-    else if(rate == 5){
-        htmlContentToAppend = `
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        <span class="fa fa-star checked"></span>
-        `
-    }
+    switch(rate){
+        case 1:
+            htmlContentToAppend += `
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            `
+            break;
+        case 2:
+            htmlContentToAppend = `
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            `
+            break;
+        case 3:
+            htmlContentToAppend = `
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            `
+            break;
+        case 4:
+            htmlContentToAppend = `
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star"></span>
+            `
+            break;
+        case 5:
+            htmlContentToAppend = `
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            `
+            break;
+    };
     return htmlContentToAppend;
 };
 
@@ -72,12 +77,18 @@ function addNewComment(score,desc,date){
 function showComments(array){
     let htmlContentToAppend = "";
     let addComments = "";
-    for(let i = 0; i < array.length; i++){
+    if (array.length != 0){
+        for(let i = 0; i < array.length; i++){
+            addComments += `
+            <li class="list-group-item">
+                <p class="m-0"><b>${array[i].user}</b> - ${array[i].dateTime} - ${addStarRating(array[i].score)}</p>
+                <p class="m-0">${array[i].description}</p>
+            </li>
+            `
+        };
+    } else {
         addComments += `
-        <li class="list-group-item">
-            <p class="m-0"><b>${array[i].user}</b> - ${array[i].dateTime} - ${addStarRating(array[i].score)}</p>
-            <p class="m-0">${array[i].description}</p>
-        </li>
+        <p class="m-0">Todavía no hay comentarios.</p>
         `
     };
     htmlContentToAppend += `
@@ -143,18 +154,14 @@ document.addEventListener("DOMContentLoaded",function(){
         event.preventDefault();
 
         let comment = document.getElementById("textArea").value;
-        // let date = new Date().toLocaleString();
         let date = new Date();
         let score = document.getElementById("select-score").value;
-        addNewComment(score,comment,date);
-        document.getElementById("textArea").value = "";
-    })
+        if(comment != "" && score != 0){
+            addNewComment(score,comment,date);
+            document.getElementById("textArea").value = "";
+            document.getElementById("select-score").value = 0;
+        } else {
+            alert("Debe ingresar un comentario y un puntaje antes de enviar.")
+        };
+    });
 });
-
-{/* <p class="m-0"><b>${array[i].user}</b> - ${array[i].dateTime} - ${array[i].score}</p>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star"></span>
-                <span class="fa fa-star"></span>
-*/}
