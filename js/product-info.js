@@ -8,55 +8,18 @@ let PRODUCT_COMMENTS_ID_URL = `${PRODUCT_INFO_COMMENTS_URL}${prodID}${EXT_TYPE}`
 
 function addStarRating(rate){
     let htmlContentToAppend = "";
-    switch(rate){
-        case 1:
-            htmlContentToAppend += `
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
-            `
-            break;
-        case 2:
-            htmlContentToAppend = `
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
-            `
-            break;
-        case 3:
-            htmlContentToAppend = `
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star"></span>
-            <span class="fa fa-star"></span>
-            `
-            break;
-        case 4:
-            htmlContentToAppend = `
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star"></span>
-            `
-            break;
-        case 5:
-            htmlContentToAppend = `
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            <span class="fa fa-star checked"></span>
-            `
-            break;
+    for(let i = 0; i < rate; i++){
+        htmlContentToAppend += `
+        <span class="fa fa-star checked"></span>
+        `
+    };
+    for(let j = 0; j < 5-rate; j++){
+        htmlContentToAppend += `
+        <span class="fa fa-star"></span>
+        `
     };
     return htmlContentToAppend;
-};
+}
 
 function addNewComment(score,desc,date){
     let year = date.getFullYear();
