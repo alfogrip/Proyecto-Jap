@@ -38,7 +38,13 @@ function sortProducts(criteria, array){
 
 function filterProductsByPrice(array){
     let result = array.filter( elem => {
-        return elem.cost >= minPrice && elem.cost <= maxPrice;
+        if(minPrice == undefined){
+            return elem.cost <= maxPrice;
+        } else if (maxPrice == undefined){
+            return elem.cost >= minPrice;
+        } else {
+            return elem.cost >= minPrice && elem.cost <= maxPrice;
+        };
     });
     return result;
 
