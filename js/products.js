@@ -47,7 +47,6 @@ function filterProductsByPrice(array){
         };
     });
     return result;
-
 };
 
 function searchProducts(array,key){
@@ -61,16 +60,16 @@ function searchProducts(array,key){
 
 function setProductID(id) {
     localStorage.setItem("prodID", id);
-    window.location = "product-info.html"
+    window.location = "product-info.html" 
 };
 
-// Función que despliega una lista con los productos correspondientes a su categoría.
+
 function showProducts(array){
     let htmlContentToAppend = "";
     for(let i = 0; i < array.length; i++){
         let product = array[i];
         htmlContentToAppend += `
-        <div onclick="setProductID(${product.id})" class="list-group-item list-group-item-action cursor-active">
+        <div onclick="setProductID(${product.id})" class="list-group-item list-group-item-action cursor-active">  
             <div class="row">
                 <div class="col-3">
                     <img src="${product.image}" alt="product image" class="img-thumbnail">

@@ -1,10 +1,15 @@
 let userEmail = localStorage.getItem("userEmail");
 let prodID = localStorage.getItem("prodID");
 let productInfo = undefined;
-let commentsArray = [];
+let commentsArray = []; 
 let currentCommentsArray = [];
 let PRODUCTS_INFO_ID_URL = `${PRODUCT_INFO_URL}${prodID}${EXT_TYPE}`;
 let PRODUCT_COMMENTS_ID_URL = `${PRODUCT_INFO_COMMENTS_URL}${prodID}${EXT_TYPE}`;
+
+function setNewProductID(id){
+    localStorage.setItem("prodID", id);
+    window.location = "product-info.html"
+};
 
 function addStarRating(rate){
     let htmlContentToAppend = "";
@@ -19,7 +24,7 @@ function addStarRating(rate){
         `
     };
     return htmlContentToAppend;
-}
+};
 
 function addNewComment(score,desc,date){
     let year = date.getFullYear();
@@ -56,7 +61,7 @@ function showComments(array){
     };
     htmlContentToAppend += `
     <div class="row">
-        <h4 class="mt-4">Comentarios</h4>
+        <h4 class="my-4">Comentarios</h4>
         <div>
             <ul class="list-group">${addComments}</ul>
         </div>
@@ -66,9 +71,11 @@ function showComments(array){
 };
 
 function showProduct(prod){
-    let htmlContentToAppend = ""
+    let productInfo = "";
     let addImages = "";
     let imgArray = prod.images;
+    let relatedProducts = "";
+    let relatedProdImg = "";
     for(let i = 0; i < imgArray.length; i++){
         addImages += `
         <div class="col-3">
@@ -76,7 +83,26 @@ function showProduct(prod){
         </div>
         `
     };
-    htmlContentToAppend += `
+    for(let j = 0; j < prod.relatedProducts.length; j++){
+        relatedProdImg += `
+        
+        <div onclick="setNewProductID(${prod.relatedProducts[j].id})" class="col-3 card-group cursor-active">
+            <div class="card">
+                <img src="${prod.relatedProducts[j].image}" class="card-img-top">
+                <h5 class="card-title my-4 mx-2">${prod.relatedProducts[j].name}</h5>
+            </div>
+        </div>
+        `
+    };
+    relatedProducts += `
+    <div class="container">
+        <div class="row">
+            <h4 class="my-4">Productos relacionados</h4>
+            ${relatedProdImg}
+        </div>
+    </div>
+    `
+    productInfo += `
         <div class="row">
             <h3 class="my-4">${prod.name}</h3><hr>
             <b>Precio</b>
@@ -91,7 +117,8 @@ function showProduct(prod){
             ${addImages}
         </div>
         `
-    document.getElementById("product-info").innerHTML = htmlContentToAppend;
+    document.getElementById("product-info").innerHTML = productInfo;
+    document.getElementById("related-products").innerHTML = relatedProducts;
 };
 
 document.addEventListener("DOMContentLoaded",function(){
