@@ -96,9 +96,12 @@ document.addEventListener("DOMContentLoaded", function(e){
             //sortAndShowCategories(ORDER_ASC_BY_NAME, resultObj.data);
         }
     });
-
-    // Agrega el email en el encabezado
+    
     document.getElementById("profile").innerHTML = `${userEmail}`;
+
+    document.getElementById("logout").addEventListener("click", function(){
+        localStorage.removeItem("userEmail");
+    });
 
     document.getElementById("sortAsc").addEventListener("click", function(){
         sortAndShowCategories(ORDER_ASC_BY_NAME);

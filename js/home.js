@@ -4,6 +4,10 @@ document.addEventListener("DOMContentLoaded", function(){
     
     document.getElementById("profile").innerHTML = `${userEmail}`;  
 
+    document.getElementById("logout").addEventListener("click", function(){
+        localStorage.removeItem("userEmail");
+    });
+
     document.getElementById("autos").addEventListener("click", function() {
         localStorage.setItem("catID", 101);
         window.location = "products.html"

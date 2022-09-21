@@ -137,8 +137,11 @@ document.addEventListener("DOMContentLoaded",function(){
         };
     });
 
-    // Agrega el email en el encabezado
     document.getElementById("profile").innerHTML = `${userEmail}`;
+
+    document.getElementById("logout").addEventListener("click", function(){
+        localStorage.removeItem("userEmail");
+    });
 
     document.getElementById("add-comment").addEventListener("submit",function(event){
         event.preventDefault();

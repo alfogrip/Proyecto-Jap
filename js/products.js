@@ -110,8 +110,11 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     });
 
-    // Agrega el email al encabezado.
     document.getElementById("profile").innerHTML = `${userEmail}`;
+
+    document.getElementById("logout").addEventListener("click", function(){
+        localStorage.removeItem("userEmail");
+    });
 
     document.getElementById("sortDescByPrice").addEventListener("click",function(){
         sortAndShowProducts(ORDER_DESC_BY_PRICE, productsArray);
