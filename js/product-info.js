@@ -6,7 +6,7 @@ let currentCommentsArray = [];
 let PRODUCTS_INFO_ID_URL = `${PRODUCT_INFO_URL}${prodID}${EXT_TYPE}`;
 let PRODUCT_COMMENTS_ID_URL = `${PRODUCT_INFO_COMMENTS_URL}${prodID}${EXT_TYPE}`;
 
-function setNewProductID(id){
+function setNewProductID(id){  
     localStorage.setItem("prodID", id);
     window.location = "product-info.html"
 };
@@ -18,7 +18,7 @@ function addStarRating(rate){
         <span class="fa fa-star checked"></span>
         `
     };
-    for(let j = 0; j < 5-rate; j++){
+    for(let i = 0; i < 5-rate; i++){
         htmlContentToAppend += `
         <span class="fa fa-star"></span>
         `
@@ -75,7 +75,7 @@ function showProduct(prod){
     let addImages = "";
     let imgArray = prod.images;
     let relatedProducts = "";
-    let relatedProdImg = "";
+    let relatedProdInfo = "";
     for(let i = 0; i < imgArray.length; i++){
         addImages += `
         <div class="col-3">
@@ -83,13 +83,12 @@ function showProduct(prod){
         </div>
         `
     };
-    for(let j = 0; j < prod.relatedProducts.length; j++){
-        relatedProdImg += `
-        
-        <div onclick="setNewProductID(${prod.relatedProducts[j].id})" class="col-3 card-group cursor-active">
+    for(let i = 0; i < prod.relatedProducts.length; i++){
+        relatedProdInfo += `
+        <div onclick="setNewProductID(${prod.relatedProducts[i].id})" class="col-3 card-group cursor-active">
             <div class="card">
-                <img src="${prod.relatedProducts[j].image}" class="card-img-top">
-                <h5 class="card-title my-4 mx-2">${prod.relatedProducts[j].name}</h5>
+                <img src="${prod.relatedProducts[i].image}" class="card-img-top">
+                <h5 class="card-title my-4 mx-2">${prod.relatedProducts[i].name}</h5>
             </div>
         </div>
         `
@@ -97,28 +96,65 @@ function showProduct(prod){
     relatedProducts += `
     <div class="container">
         <div class="row">
-            <h4 class="my-4">Productos relacionados</h4>
-            ${relatedProdImg}
+            <h4 class="my-3">Productos relacionados</h4>
+            ${relatedProdInfo}
         </div>
     </div>
     `
     productInfo += `
-        <div class="row">
+        <div class>
             <h3 class="my-4">${prod.name}</h3><hr>
-            <b>Precio</b>
-            <p>${prod.currency} ${prod.cost}</p>
-            <b>Descripción</b>
-            <p>${prod.description}</p>
-            <b>Categoría</b>
-            <p>${prod.category}</p>
-            <b>Cantidad de vendidos</b>
-            <p>${prod.soldCount}</p>
-            <b>Imágenes ilustrativas</b>
-            ${addImages}
+        </div>
+        <div class="row">
+            <div class="col">
+                <div id="carousel" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        <button type="button" data-bs-target="#carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" data-bs-interval="5000">
+                            <img src="${imgArray[0]}" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item" data-bs-interval="5000">
+                            <img src="${imgArray[1]}" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item" data-bs-interval="5000">
+                            <img src="${imgArray[2]}" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item" data-bs-interval="5000">
+                            <img src="${imgArray[3]}" class="d-block w-100">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+                <div class="row mt-2">
+                    ${addImages}
+                </div>
+            </div>
+            <div class="col">
+                <b>Precio</b>
+                <p>${prod.currency} ${prod.cost}</p>
+                <b>Descripción</b>
+                <p>${prod.description}</p>
+                <b>Categoría</b>
+                <p>${prod.category}</p>
+                <b>Cantidad de vendidos</b>
+                <p>${prod.soldCount}</p>
+            </div>
         </div>
         `
     document.getElementById("product-info").innerHTML = productInfo;
-    document.getElementById("related-products").innerHTML = relatedProducts;
+    document.getElementById("related-products").innerHTML = relatedProducts;  // Cargo los prod relacionados
 };
 
 document.addEventListener("DOMContentLoaded",function(){
@@ -141,6 +177,7 @@ document.addEventListener("DOMContentLoaded",function(){
 
     document.getElementById("logout").addEventListener("click", function(){
         localStorage.removeItem("userEmail");
+        localStorage.removeItem("userPass");
     });
 
     document.getElementById("add-comment").addEventListener("submit",function(event){
@@ -157,4 +194,5 @@ document.addEventListener("DOMContentLoaded",function(){
             alert("Debe ingresar un comentario y un puntaje antes de enviar.")
         };
     });
+
 });
