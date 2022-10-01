@@ -6,5 +6,6 @@ document.addEventListener("DOMContentLoaded",function(){
 
     document.getElementById("logout").addEventListener("click", function(){
         localStorage.removeItem("userEmail");
+        localStorage.removeItem("userPass");
     });
 });
