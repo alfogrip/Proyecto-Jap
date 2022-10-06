@@ -1,5 +1,6 @@
 let userEmail = localStorage.getItem("userEmail");
 let prodID = localStorage.getItem("prodID");
+let cartArticles = JSON.parse(localStorage.getItem("cartArt"));
 let productInfo = undefined;
 let commentsArray = []; 
 let currentCommentsArray = [];
@@ -9,6 +10,25 @@ let PRODUCT_COMMENTS_ID_URL = `${PRODUCT_INFO_COMMENTS_URL}${prodID}${EXT_TYPE}`
 function setNewProductID(id){  
     localStorage.setItem("prodID", id);
     window.location = "product-info.html"
+};
+
+function addToCart(prod){
+    let prodToAdd = {
+        "count": 1,
+        "currency": prod.currency,
+        "id": prod.id,
+        "image": prod.images[0],
+        "name": prod.name,
+        "unitCost": prod.cost
+    };
+    if(cartArticles == null){
+        cartArticles = [];
+        cartArticles.push(prodToAdd);
+        localStorage.setItem("cartArt",JSON.stringify(cartArticles));
+    } else{
+        cartArticles.push(prodToAdd);
+        localStorage.setItem("cartArt",JSON.stringify(cartArticles));
+    };
 };
 
 function addStarRating(rate){
@@ -102,7 +122,7 @@ function showProduct(prod){
     </div>
     `
     productInfo += `
-        <div class>
+        <div>
             <h3 class="my-4">${prod.name}</h3><hr>
         </div>
         <div class="row">
@@ -142,19 +162,23 @@ function showProduct(prod){
                 </div>
             </div>
             <div class="col">
-                <b>Precio</b>
+                <p class="mb-0 mt-2"><b>Precio</b></p>
                 <p>${prod.currency} ${prod.cost}</p>
-                <b>Descripción</b>
+                <p class="mb-0 mt-2"><b>Descripción</b></p>
                 <p>${prod.description}</p>
-                <b>Categoría</b>
+                <p class="mb-0 mt-2"><b>Categoría</b></p>
                 <p>${prod.category}</p>
-                <b>Cantidad de vendidos</b>
+                <p class="mb-0 mt-2"><b>Cantidad de vendidos</b></p>
                 <p>${prod.soldCount}</p>
+                <button class="btn btn-primary" id="btn-addToCart" type="button">Agregar al carrito</button>
             </div>
         </div>
         `
     document.getElementById("product-info").innerHTML = productInfo;
-    document.getElementById("related-products").innerHTML = relatedProducts;  // Cargo los prod relacionados
+    document.getElementById("related-products").innerHTML = relatedProducts; 
+    document.getElementById("btn-addToCart").addEventListener("click", function(){
+        addToCart(prod);
+    });
 };
 
 document.addEventListener("DOMContentLoaded",function(){
@@ -176,8 +200,7 @@ document.addEventListener("DOMContentLoaded",function(){
     document.getElementById("profile").innerHTML = `${userEmail}`;
 
     document.getElementById("logout").addEventListener("click", function(){
-        localStorage.removeItem("userEmail");
-        localStorage.removeItem("userPass");
+        localStorage.clear();
     });
 
     document.getElementById("add-comment").addEventListener("submit",function(event){
@@ -194,5 +217,4 @@ document.addEventListener("DOMContentLoaded",function(){
             alert("Debe ingresar un comentario y un puntaje antes de enviar.")
         };
     });
-
 });
