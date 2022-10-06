@@ -100,8 +100,7 @@ document.addEventListener("DOMContentLoaded", function(e){
     document.getElementById("profile").innerHTML = `${userEmail}`;
 
     document.getElementById("logout").addEventListener("click", function(){
-        localStorage.removeItem("userEmail");
-        localStorage.removeItem("userPass");
+        localStorage.clear();
     });
 
     document.getElementById("sortAsc").addEventListener("click", function(){

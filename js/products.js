@@ -113,8 +113,7 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("profile").innerHTML = `${userEmail}`;
 
     document.getElementById("logout").addEventListener("click", function(){
-        localStorage.removeItem("userEmail");
-        localStorage.removeItem("userPass");
+        localStorage.clear();
     });
 
     document.getElementById("sortDescByPrice").addEventListener("click",function(){
