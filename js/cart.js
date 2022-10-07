@@ -53,7 +53,29 @@ function showCartArticles(array){
     let container = document.getElementById("container");
     let divCart = document.createElement("div");
     let listOfArticles = document.createElement("ul");
+    let headOfList = document.createElement("li");
     listOfArticles.classList.add("list-group");
+    headOfList.classList.add("list-group-item");
+    headOfList.innerHTML = `
+        <div class="row ">
+            <div class="col-2">
+            </div>
+            <div class="col d-flex justify-content-center">
+                <p class="m-0"><b>Nombre</b></p>
+            </div>
+            <div class="col d-flex justify-content-center">
+                <p class="m-0"><b>Costo</b></p>   
+            </div>
+            <div class="col d-flex justify-content-center">
+                <p class="m-0"><b>Cantidad</b></p>
+            </div>
+            <div class="col d-flex justify-content-center">
+                <p class="m-0"><b>Subtotal</b></p>
+            </div>
+        </div>
+    
+    `
+    listOfArticles.appendChild(headOfList);
     for(let i = 0; i < array.length; i++){
         let article = document.createElement("li");
         article.classList.add("list-group-item")
@@ -62,24 +84,26 @@ function showCartArticles(array){
             <div class="col-2">
                 <img src="${array[i].image}" class="img-thumbnail" alt="imagen del producto">
             </div>
-            <div class="col-3">
-                <h5>${array[i].name}</h5>
-            </div>
-            <div class="col-2">
-                <p>${array[i].currency}${array[i].unitCost}</p>
-            </div>
-            <div class="col-1">
-                <input class="form-control" type="number" value="${array[i].count}" min="1">
+            <div class="col d-flex justify-content-center">
+                <p class="m-0">${array[i].name}</p>
             </div>
             <div class="col d-flex justify-content-center">
-                <p>${array[i].currency}${array[i].unitCost}</p>
+                <p class="m-0">${array[i].currency}${array[i].unitCost}</p>
+            </div>
+            <div class="col d-flex justify-content-center">
+                <div class="col-4">
+                    <input class="form-control" type="number" value="${array[i].count}" min="1">
+                </div>
+            </div>
+            <div class="col d-flex justify-content-center">
+                <p class="m-0">${array[i].currency}${array[i].unitCost * array[i].count}</p>
             </div>
         </div>
         `
         listOfArticles.appendChild(article);
         article.addEventListener("input",function(){
             let quantity = article.getElementsByTagName("input")[0].value;
-            let div = article.getElementsByTagName("div")[5];
+            let div = article.getElementsByTagName("div")[6];
             let totalPrice = quantity * array[i].unitCost;
             div.innerHTML = `
             <p>${array[i].currency}${totalPrice}</p>

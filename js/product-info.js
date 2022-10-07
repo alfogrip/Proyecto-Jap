@@ -7,14 +7,14 @@ let currentCommentsArray = [];
 let PRODUCTS_INFO_ID_URL = `${PRODUCT_INFO_URL}${prodID}${EXT_TYPE}`;
 let PRODUCT_COMMENTS_ID_URL = `${PRODUCT_INFO_COMMENTS_URL}${prodID}${EXT_TYPE}`;
 
-function setNewProductID(id){  
+function setNewProductID(id){
     localStorage.setItem("prodID", id);
     window.location = "product-info.html"
 };
 
-function addToCart(prod){
+function addToCart(prod,count){
     let prodToAdd = {
-        "count": 1,
+        "count": count,
         "currency": prod.currency,
         "id": prod.id,
         "image": prod.images[0],
@@ -38,7 +38,7 @@ function addStarRating(rate){
         <span class="fa fa-star checked"></span>
         `
     };
-    for(let i = 0; i < 5-rate; i++){
+    for(let j = 0; j < 5-rate; j++){
         htmlContentToAppend += `
         <span class="fa fa-star"></span>
         `
@@ -98,7 +98,7 @@ function showProduct(prod){
     let relatedProdInfo = "";
     for(let i = 0; i < imgArray.length; i++){
         addImages += `
-        <div class="col-3">
+        <div id="img${i}" class="col">
             <img src="${imgArray[i]}" class="img-thumbnail">
         </div>
         `
@@ -122,64 +122,57 @@ function showProduct(prod){
     </div>
     `
     productInfo += `
-        <div>
-            <h3 class="my-4">${prod.name}</h3><hr>
-        </div>
-        <div class="row">
+        <div class="row mt-5">
             <div class="col">
-                <div id="carousel" class="carousel carousel-dark slide" data-bs-ride="carousel">
-                    <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                        <button type="button" data-bs-target="#carousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                    </div>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active" data-bs-interval="5000">
-                            <img src="${imgArray[0]}" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item" data-bs-interval="5000">
-                            <img src="${imgArray[1]}" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item" data-bs-interval="5000">
-                            <img src="${imgArray[2]}" class="d-block w-100">
-                        </div>
-                        <div class="carousel-item" data-bs-interval="5000">
-                            <img src="${imgArray[3]}" class="d-block w-100">
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
+                <img class="img-thumbnail" id="mainImg" src="${imgArray[0]}">
                 <div class="row mt-2">
                     ${addImages}
                 </div>
             </div>
             <div class="col">
-                <p class="mb-0 mt-2"><b>Precio</b></p>
-                <p>${prod.currency} ${prod.cost}</p>
-                <p class="mb-0 mt-2"><b>Descripción</b></p>
+                <h3 class="my-4">${prod.name}</h3>
                 <p>${prod.description}</p>
-                <p class="mb-0 mt-2"><b>Categoría</b></p>
-                <p>${prod.category}</p>
-                <p class="mb-0 mt-2"><b>Cantidad de vendidos</b></p>
-                <p>${prod.soldCount}</p>
-                <button class="btn btn-primary" id="btn-addToCart" type="button">Agregar al carrito</button>
+                <p><b>Precio: </b>${prod.currency} ${prod.cost}</p>
+                <p><b>Categoría: </b>${prod.category}</p>
+                <p><b>Vendidos: </b>${prod.soldCount}</p>
+                <p><b>Cantidad: </b>
+                    <input class="form-control w-25" type="number" value="1" id="product-amount" min="1">
+                </p>
+                <div class="row" id="div-btn-addToCart">
+                    <div class="col-4">
+                        <button class="btn btn-primary" id="btn-addToCart" type="button">Agregar al carrito</button>
+                    </div>
+                </div>
             </div>
-        </div>
+        </div><hr>
         `
     document.getElementById("product-info").innerHTML = productInfo;
-    document.getElementById("related-products").innerHTML = relatedProducts; 
+    document.getElementById("related-products").innerHTML = relatedProducts;
     document.getElementById("btn-addToCart").addEventListener("click", function(){
-        addToCart(prod);
+        let amount = document.getElementById("product-amount").value;
+        // let container = document.getElementById("div-btn-addToCart");
+        // let div = document.createElement("div");
+        // div.classList.add("col");
+        // div.classList.add("justify-content-center");
+        // div.innerHTML = `<i class="fa fa-check" aria-hidden="true"></i>`
+        // container.appendChild(div);
+        addToCart(prod,amount);
+    });
+    
+    document.getElementById("img0").addEventListener("mouseover",function(){
+        document.getElementById("mainImg").src = `${imgArray[0]}`;
+    });
+    document.getElementById("img1").addEventListener("mouseover",function(){
+        document.getElementById("mainImg").src = `${imgArray[1]}`;
+    });
+    document.getElementById("img2").addEventListener("mouseover",function(){
+        document.getElementById("mainImg").src = `${imgArray[2]}`;
+    });
+    document.getElementById("img3").addEventListener("mouseover",function(){
+        document.getElementById("mainImg").src = `${imgArray[3]}`;
     });
 };
+
 
 document.addEventListener("DOMContentLoaded",function(){
 
@@ -217,4 +210,6 @@ document.addEventListener("DOMContentLoaded",function(){
             alert("Debe ingresar un comentario y un puntaje antes de enviar.")
         };
     });
+
+    
 });
