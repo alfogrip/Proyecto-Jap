@@ -188,3 +188,36 @@ a.custom-card:hover {
 .checked {
   color: orange;
 }
+
+.prod-info{
+  padding: 20px;
+  background-color: rgb(245, 245, 245);
+  border-radius: 5px;
+}
+
+.sub-heading{
+  color:rgb(100, 100, 100);
+  font-style: italic;
+}
+
+.add-to-cart{
+  transition-duration: 0.4s;
+  width: 100%;
+  height: 10%;
+  background-color: rgb(61, 211, 211);
+  color: white;
+  border-radius: 12px;
+  border-style: none
+}
+
+.add-to-cart:hover{
+  width: 100%;
+  height: 10%;
+  color: black;
+  background-color: white;
+  border-radius: 12px;
+  border: 2px solid rgb(61, 211, 211);
+}
+
+
+

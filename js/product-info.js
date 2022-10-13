@@ -13,6 +13,7 @@ function setNewProductID(id){
 };
 
 function addToCart(prod,count){
+    let i = 0;
     let prodToAdd = {
         "count": count,
         "currency": prod.currency,
@@ -25,9 +26,17 @@ function addToCart(prod,count){
         cartArticles = [];
         cartArticles.push(prodToAdd);
         localStorage.setItem("cartArt",JSON.stringify(cartArticles));
-    } else{
-        cartArticles.push(prodToAdd);
-        localStorage.setItem("cartArt",JSON.stringify(cartArticles));
+    } else {
+        while(i < cartArticles.length && cartArticles[i].id != prodToAdd.id){
+            i++
+        };
+        if(i >= cartArticles.length){
+            cartArticles.push(prodToAdd);
+            localStorage.setItem("cartArt",JSON.stringify(cartArticles));
+        } else {
+            cartArticles[i].count += prodToAdd.count;
+            localStorage.setItem("cartArt",JSON.stringify(cartArticles));
+        };              
     };
 };
 
@@ -44,7 +53,7 @@ function addStarRating(rate){
         `
     };
     return htmlContentToAppend;
-};
+}
 
 function addNewComment(score,desc,date){
     let year = date.getFullYear();
@@ -80,7 +89,7 @@ function showComments(array){
         `
     };
     htmlContentToAppend += `
-    <div class="row">
+    <div class="row mt-4">
         <h4 class="my-4">Comentarios</h4>
         <div>
             <ul class="list-group">${addComments}</ul>
@@ -98,7 +107,7 @@ function showProduct(prod){
     let relatedProdInfo = "";
     for(let i = 0; i < imgArray.length; i++){
         addImages += `
-        <div id="img${i}" class="col">
+        <div id="img${i}" class="my-2">
             <img src="${imgArray[i]}" class="img-thumbnail">
         </div>
         `
@@ -123,53 +132,44 @@ function showProduct(prod){
     `
     productInfo += `
         <div class="row mt-5">
-            <div class="col">
-                <img class="img-thumbnail" id="mainImg" src="${imgArray[0]}">
-                <div class="row mt-2">
-                    ${addImages}
-                </div>
+            <div class="col-1">
+                ${addImages}
             </div>
             <div class="col">
-                <h3 class="my-4">${prod.name}</h3>
+                <img class="img-thumbnail" id="main-img" src="${imgArray[0]}">
+            </div>
+            <div class="col-4 prod-info">
+                <h3>${prod.name}</h3>
                 <p>${prod.description}</p>
-                <p><b>Precio: </b>${prod.currency} ${prod.cost}</p>
-                <p><b>Categoría: </b>${prod.category}</p>
-                <p><b>Vendidos: </b>${prod.soldCount}</p>
-                <p><b>Cantidad: </b>
+                <p><b class="sub-heading">Precio: </b>${prod.currency} ${prod.cost}</p>
+                <p><b class="sub-heading">Categoría: </b>${prod.category}</p>
+                <p><b class="sub-heading">Vendidos: </b>${prod.soldCount}</p>
+                <p><b class="sub-heading">Cantidad: </b>
                     <input class="form-control w-25" type="number" value="1" id="product-amount" min="1">
                 </p>
-                <div class="row" id="div-btn-addToCart">
-                    <div class="col-4">
-                        <button class="btn btn-primary" id="btn-addToCart" type="button">Agregar al carrito</button>
-                    </div>
-                </div>
+                <button class="add-to-cart" id="btn-add-to-cart" type="button">Agregar al carrito</button>
             </div>
-        </div><hr>
+        </div>
         `
     document.getElementById("product-info").innerHTML = productInfo;
     document.getElementById("related-products").innerHTML = relatedProducts;
-    document.getElementById("btn-addToCart").addEventListener("click", function(){
-        let amount = document.getElementById("product-amount").value;
-        // let container = document.getElementById("div-btn-addToCart");
-        // let div = document.createElement("div");
-        // div.classList.add("col");
-        // div.classList.add("justify-content-center");
-        // div.innerHTML = `<i class="fa fa-check" aria-hidden="true"></i>`
-        // container.appendChild(div);
+    document.getElementById("btn-add-to-cart").addEventListener("click", function(){
+        let amount = parseInt(document.getElementById("product-amount").value);
         addToCart(prod,amount);
+        alert("El producto se agregó correctamente")
     });
     
     document.getElementById("img0").addEventListener("mouseover",function(){
-        document.getElementById("mainImg").src = `${imgArray[0]}`;
+        document.getElementById("main-img").src = `${imgArray[0]}`;
     });
     document.getElementById("img1").addEventListener("mouseover",function(){
-        document.getElementById("mainImg").src = `${imgArray[1]}`;
+        document.getElementById("main-img").src = `${imgArray[1]}`;
     });
     document.getElementById("img2").addEventListener("mouseover",function(){
-        document.getElementById("mainImg").src = `${imgArray[2]}`;
+        document.getElementById("main-img").src = `${imgArray[2]}`;
     });
     document.getElementById("img3").addEventListener("mouseover",function(){
-        document.getElementById("mainImg").src = `${imgArray[3]}`;
+        document.getElementById("main-img").src = `${imgArray[3]}`;
     });
 };
 
@@ -207,9 +207,8 @@ document.addEventListener("DOMContentLoaded",function(){
             document.getElementById("textArea").value = "";
             document.getElementById("select-score").value = 0;
         } else {
-            alert("Debe ingresar un comentario y un puntaje antes de enviar.")
+            alert("Por favor ingrese un comentario y un puntaje antes de enviar.")
         };
     });
 
-    
 });
