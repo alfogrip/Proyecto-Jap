@@ -1,8 +1,12 @@
 let userEmail = localStorage.getItem("userEmail");
-let productToAdd = JSON.parse(localStorage.getItem("productToAdd"));
 let cartArray = [];
 let productsToAdd = JSON.parse(localStorage.getItem("cartArt"));
 let CART_USER = `${CART_INFO_URL}25801${EXT_TYPE}`;
+
+function deleteProdFromCart(prod){
+    productsToAdd = productsToAdd.filter(elem => elem.id != prod.id)
+    localStorage.setItem("cartArt",JSON.stringify(productsToAdd))
+};
 
 function selectDelivery(){
     let container = document.getElementById("container");
@@ -53,10 +57,10 @@ function showCartArticles(array){
     let container = document.getElementById("container");
     let divCart = document.createElement("div");
     let listOfArticles = document.createElement("ul");
-    let headOfList = document.createElement("li");
+    let listHeader = document.createElement("li");
     listOfArticles.classList.add("list-group");
-    headOfList.classList.add("list-group-item");
-    headOfList.innerHTML = `
+    listHeader.classList.add("list-group-item");
+    listHeader.innerHTML = `
         <div class="row ">
             <div class="col-2">
             </div>
@@ -72,10 +76,12 @@ function showCartArticles(array){
             <div class="col d-flex justify-content-center">
                 <p class="m-0"><b>Subtotal</b></p>
             </div>
+            <div class="col-1">
+            </div>
         </div>
     
     `
-    listOfArticles.appendChild(headOfList);
+    listOfArticles.appendChild(listHeader);
     for(let i = 0; i < array.length; i++){
         let article = document.createElement("li");
         article.classList.add("list-group-item")
@@ -98,17 +104,27 @@ function showCartArticles(array){
             <div class="col d-flex justify-content-center">
                 <p class="m-0">${array[i].currency}${array[i].unitCost * array[i].count}</p>
             </div>
+            <div class="col-1">
+                <button class="btn-check" name="delete" id="btn-delete${i}"></button>
+                <label class="btn btn-light" for="btn-delete${i}"><i class="fa fa-trash-o"></i></label>
+            </div>
         </div>
         `
-        listOfArticles.appendChild(article);
         article.addEventListener("input",function(){
-            let quantity = article.getElementsByTagName("input")[0].value;
+            let quantity = parseInt(article.getElementsByTagName("input")[0].value);
             let div = article.getElementsByTagName("div")[6];
             let totalPrice = quantity * array[i].unitCost;
+            array[i].count = quantity;
+            console.log(array[i].count)
             div.innerHTML = `
             <p>${array[i].currency}${totalPrice}</p>
             `
         });
+        article.getElementsByTagName("button")[0].addEventListener("click",function(){
+            listOfArticles.removeChild(article);
+            deleteProdFromCart(array[i]);
+        });
+        listOfArticles.appendChild(article);
     };
     divCart.innerHTML = `
     <h4>Artículos</h4><hr>
