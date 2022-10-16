@@ -1,9 +1,11 @@
 let userEmail = localStorage.getItem("userEmail");
-let cartArray = [];
+let cartArrayJSON = [];
+let currentCartArray = [];
 let productsToAdd = JSON.parse(localStorage.getItem("cartArt"));
 let CART_USER = `${CART_INFO_URL}25801${EXT_TYPE}`;
 
 function deleteProdFromCart(prod){
+    currentCartArray = currentCartArray.filter(elem => elem.id != prod.id)
     productsToAdd = productsToAdd.filter(elem => elem.id != prod.id)
     localStorage.setItem("cartArt",JSON.stringify(productsToAdd))
 };
@@ -12,39 +14,46 @@ function selectDelivery(){
     let container = document.getElementById("container");
     let divDelivery = document.createElement("div");
     divDelivery.classList.add("row");
+    divDelivery.setAttribute("id","div-delivery");
     divDelivery.innerHTML = `
-    <div class="col-5">
+    <div class="col-5 delivery my-4">
         <form action="" method="get">
-            <h4 class="mt-4">Tipo de envío</h4>
-                <p class="m-0">
-                    <input type="radio" id="premium" name="delivery" value="premium">
-                    <label for="premium">Premium 2 a 5 días (15%)</label>
-                </p>
-                <p class="m-0">
-                    <input type="radio" id="express" name="delivery" value="express">
-                    <label for="express">Express 5 a 8 días (7%)</label>
-                </p>
-                <p class="m-0">
-                    <input type="radio" id="standard" name="delivery" value="standard">
-                    <label for="standard">Standard 12 a 15 días (5%)</label>
-                </p> 
+            <h4>Tipo de envío</h4>
+                <div class="select-delivery">
+                    <p class="m-0">
+                        <input class="delivery-input" type="radio" id="premium" name="delivery" value="premium">
+                        <label for="premium">Premium 2 a 5 días (15%)</label>
+                    </p>
+                </div>
+                <div class="select-delivery">
+                    <p class="m-0">
+                        <input type="radio" id="express" name="delivery" value="express">
+                        <label for="express">Express 5 a 8 días (7%)</label>
+                    </p>
+                </div>
+                <div class="select-delivery">
+                    <p class="m-0">
+                        <input type="radio" id="standard" name="delivery" value="standard">
+                        <label for="standard">Standard 12 a 15 días (5%)</label>
+                    </p> 
+                </div>
         </form>
     </div>
-    <div class="col-6">
+    <div class="col-6 delivery address my-4">
         <form action="" method="get">
-            <h4 class="mt-4">Dirección</h4>
+            <h4>Dirección</h4>
             <div class="row mb-2">
-                <div class="col">
+                <div class="col input-container">
+                    <input type="text" name="street" id="street" required>
                     <label for="street">Calle</label>
-                    <input class="form-control type="text" name="street" id="street" required>
                 </div>
-                <div class="col">
+                <div class="col input-container">
+                    <input type="text" name="number" id="number" required>
                     <label for="number">Número</label>
-                    <input class="form-control type="text" name="number" id="number" required>
                 </div>
-                <div class="col">
-                <label for="corner">Esquina</label>
-                <input class="form-control type="text" name="corner" id="corner" required>
+                <div class="col input-container">
+                    <input type="text" name="corner" id="corner" required>
+                    <label for="corner">Esquina</label>
             </div>
             </div>
         </form>
@@ -110,21 +119,24 @@ function showCartArticles(array){
             </div>
         </div>
         `
+        listOfArticles.appendChild(article);
         article.addEventListener("input",function(){
             let quantity = parseInt(article.getElementsByTagName("input")[0].value);
             let div = article.getElementsByTagName("div")[6];
             let totalPrice = quantity * array[i].unitCost;
             array[i].count = quantity;
-            console.log(array[i].count)
             div.innerHTML = `
             <p>${array[i].currency}${totalPrice}</p>
             `
         });
         article.getElementsByTagName("button")[0].addEventListener("click",function(){
-            listOfArticles.removeChild(article);
             deleteProdFromCart(array[i]);
+            listOfArticles.removeChild(article);
+            console.log(currentCartArray)
+            if(currentCartArray.length == 0){
+                listOfArticles.removeChild(listHeader);
+            };
         });
-        listOfArticles.appendChild(article);
     };
     divCart.innerHTML = `
     <h4>Artículos</h4><hr>
@@ -138,7 +150,7 @@ function addAndShowCartArticles(array){
     if(productsToAdd == null){
         showCartArticles(array);
     } else {
-        let currentCartArray = array;
+        currentCartArray = array;
         for(product of productsToAdd){
             currentCartArray.push(product);
         }
@@ -148,10 +160,10 @@ function addAndShowCartArticles(array){
 
 document.addEventListener("DOMContentLoaded", function(){
 
-    getJSONData(CART_USER).then(objProdComments => { 
-        if (objProdComments.status === "ok") {
-            cartArray = objProdComments.data.articles;
-            addAndShowCartArticles(cartArray);
+    getJSONData(CART_USER).then(objCartArticles => { 
+        if (objCartArticles.status === "ok") {
+            cartArrayJSON = objCartArticles.data.articles;
+            addAndShowCartArticles(cartArrayJSON);
         };
     });
 

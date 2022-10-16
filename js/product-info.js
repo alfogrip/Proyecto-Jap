@@ -107,7 +107,7 @@ function showProduct(prod){
     let relatedProdInfo = "";
     for(let i = 0; i < imgArray.length; i++){
         addImages += `
-        <div id="img${i}" class="my-2">
+        <div id="img${i}" class="mb-2">
             <img src="${imgArray[i]}" class="img-thumbnail">
         </div>
         `
