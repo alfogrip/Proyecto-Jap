@@ -1,4 +1,4 @@
-let userEmail = localStorage.getItem("userEmail");
+let userEmail = JSON.parse(localStorage.getItem("userPersonalInfo")).email;
 
 document.addEventListener("DOMContentLoaded", function(){
     

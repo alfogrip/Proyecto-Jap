@@ -1,7 +1,7 @@
 let productCost = 0;
 let productCount = 0;
 let comissionPercentage = 0.13;
-let userEmail = localStorage.getItem("userEmail");
+let userEmail = JSON.parse(localStorage.getItem("userPersonalInfo")).email;
 let MONEY_SYMBOL = "$";
 let DOLLAR_CURRENCY = "Dólares (USD)";
 let PESO_CURRENCY = "Pesos Uruguayos (UYU)";

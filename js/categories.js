@@ -5,7 +5,7 @@ let currentCategoriesArray = [];
 let currentSortCriteria = undefined;
 let minCount = undefined;
 let maxCount = undefined;
-let userEmail = localStorage.getItem("userEmail");
+let userEmail = JSON.parse(localStorage.getItem("userPersonalInfo")).email;
 
 function sortCategories(criteria, array){
     let result = [];
