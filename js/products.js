@@ -1,12 +1,12 @@
 const ORDER_DESC_BY_PRICE = "Desc";  
 const ORDER_ASC_BY_PRICE = "Asc";
 const ORDER_DESC_BY_PROD_COUNT = "Count";
+let userEmail = JSON.parse(localStorage.getItem("userPersonalInfo")).email;
 let currentSortCriteria = undefined; 
 let currentProductsArray = [];  
 let productsArray = [];
 let minPrice = undefined; 
 let maxPrice = undefined;
-let userEmail = localStorage.getItem("userEmail");
 let catID = localStorage.getItem("catID");
 let PRODUCTS_ID_URL = `${PRODUCTS_URL}${catID}${EXT_TYPE}`; 
 
@@ -49,11 +49,11 @@ function filterProductsByPrice(array){
     return result;
 };
 
-function searchProducts(array,key){
+function searchProducts(array,search){
     let result = array.filter( elem => {
         let title = elem.name.toLowerCase();
         let description = elem.description.toLowerCase();
-        return title.includes(key) || description.includes(key);
+        return title.includes(search) || description.includes(search);
     });
     return result; 
 };
@@ -104,9 +104,11 @@ document.addEventListener("DOMContentLoaded", function(){
     getJSONData(PRODUCTS_ID_URL).then(objProduct => { 
         if (objProduct.status === "ok") {
             productsArray = objProduct.data.products;
-            document.getElementById("product-title").innerHTML = `<h2>Productos</h2>
-                <p>Verás aquí todos los productos de la categoría ${objProduct.data.catName}</p>`;
             showProducts(productsArray);
+            document.getElementById("product-title").innerHTML = `
+            <h2>Productos</h2>
+            <p>Verás aquí todos los productos de la categoría ${objProduct.data.catName}</p>
+            `
         }
     });
 
