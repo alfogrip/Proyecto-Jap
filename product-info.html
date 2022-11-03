@@ -54,22 +54,26 @@
       <div class="row" id="add-comment">
         <form action="" method="get">
           <h4 class="mt-4 mb-2">Comentar</h4>
-          <p>Tu opinión</p>
-          <textarea class="form-control w-50" name="comment" id="textArea"></textarea>
-          <p class="my-3">Tu puntuación</p>
-          <select class="form-control w-25" name="score" id="select-score">
-            <option value="0" disabled selected>Puntaje</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-          <button class="mt-2 btn btn-sm btn-primary" type="submit" id="submit">Enviar</button><hr>
+          <div class="row">
+            <div class="col">
+              <textarea class="form-control" name="comment" id="textArea" placeholder="Tu comentario..."></textarea>
+            </div>
+            <div class="col">
+              <select class="form-select custom-select d-block w-25" name="score" id="select-score">
+                <option value="0" disabled selected>Puntaje</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+          </div>
+          <button class="mt-2 button btn-comment" type="submit" id="submit">Enviar</button><hr>
         </form>
       </div>
       <div class="album" id="related-products">
-
+        
       </div>
     </div>
   </main>

@@ -1,4 +1,4 @@
-let userEmail = localStorage.getItem("userEmail");
+let userEmail = JSON.parse(localStorage.getItem("userPersonalInfo")).email;
 let prodID = localStorage.getItem("prodID");
 let cartArticles = JSON.parse(localStorage.getItem("cartArt"));
 let productInfo = undefined;
@@ -22,7 +22,7 @@ function addToCart(prod,count){
         "name": prod.name,
         "unitCost": prod.cost
     };
-    if(cartArticles == null){
+    if(cartArticles === null){
         cartArticles = [];
         cartArticles.push(prodToAdd);
         localStorage.setItem("cartArt",JSON.stringify(cartArticles));
@@ -74,7 +74,7 @@ function addNewComment(score,desc,date){
 function showComments(array){
     let htmlContentToAppend = "";
     let addComments = "";
-    if (array.length != 0){
+    if (array.length !== 0){
         for(let i = 0; i < array.length; i++){
             addComments += `
             <li class="list-group-item">
@@ -90,7 +90,7 @@ function showComments(array){
     };
     htmlContentToAppend += `
     <div class="row mt-4">
-        <h4 class="my-4">Comentarios</h4>
+        <hr><h4 class="my-4">Comentarios</h4>
         <div>
             <ul class="list-group">${addComments}</ul>
         </div>
@@ -147,7 +147,7 @@ function showProduct(prod){
                 <p><b class="sub-heading">Cantidad: </b>
                     <input class="form-control w-25" type="number" value="1" id="product-amount" min="1">
                 </p>
-                <button class="add-to-cart" id="btn-add-to-cart" type="button">Agregar al carrito</button>
+                <button class="button add-to-cart" id="btn-add-to-cart" type="button">Agregar al carrito</button>
             </div>
         </div>
         `
@@ -156,21 +156,19 @@ function showProduct(prod){
     document.getElementById("btn-add-to-cart").addEventListener("click", function(){
         let amount = parseInt(document.getElementById("product-amount").value);
         addToCart(prod,amount);
-        alert("El producto se agregó correctamente")
+        document.getElementById("add-comment").innerHTML += `
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            ¡El producto se agregó correctamente!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        `
     });
-    
-    document.getElementById("img0").addEventListener("mouseover",function(){
-        document.getElementById("main-img").src = `${imgArray[0]}`;
-    });
-    document.getElementById("img1").addEventListener("mouseover",function(){
-        document.getElementById("main-img").src = `${imgArray[1]}`;
-    });
-    document.getElementById("img2").addEventListener("mouseover",function(){
-        document.getElementById("main-img").src = `${imgArray[2]}`;
-    });
-    document.getElementById("img3").addEventListener("mouseover",function(){
-        document.getElementById("main-img").src = `${imgArray[3]}`;
-    });
+
+    for(let i = 0; i < imgArray.length; i++){
+        document.getElementById(`img${i}`).addEventListener("mouseover",function(){
+            document.getElementById("main-img").src = `${imgArray[i]}`;
+        })
+    };
 };
 
 
@@ -198,7 +196,6 @@ document.addEventListener("DOMContentLoaded",function(){
 
     document.getElementById("add-comment").addEventListener("submit",function(event){
         event.preventDefault();
-
         let comment = document.getElementById("textArea").value;
         let date = new Date();
         let score = document.getElementById("select-score").value;
