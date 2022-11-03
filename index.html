@@ -20,26 +20,31 @@
     <div class="container">
       <form action="" method="get" class="needs-validation" id="form-login" novalidate>
         <img class="mt-4" src="img/login.png" alt="e-commerce login" width="250">
-        <h1 class="h2">Inicio de sesión</h1>
-        <div class="d-flex flex-column align-items-center" id="form-email">
-          <label for="email">Email</label>
-          <input class="form-control w-25" type="email" id="email" name="email" placeholder="Email" required>
-          <div class="invalid-feedback">Debe ingresar un email.</div>
+        <div class="row">
+          <h1 class="h2">Inicio de sesión</h1>
+          <div class="d-flex flex-column align-items-center" id="form-email">
+            <label class="mt-2" for="email">Email</label>
+            <input class="form-control w-25" type="email" id="email" name="email" placeholder="Email" required>
+            <div class="invalid-feedback">Debe ingresar un email.</div>
+          </div>
+          <div class="d-flex flex-column align-items-center mt-1" id="form-pass">
+            <label class="mt-2" for="pass">Contraseña</label>
+            <input class="form-control w-25" type="password" id="pass" name="password" placeholder="Contraseña" required>
+            <div class="invalid-feedback">Debe ingresar una contraseña.</div>
+          </div>
+          <p class="mt-2 mb-0 fst-italic fs-6">O ingresa con</p>
+          <div class="g_id_signin d-flex flex-column align-items-center">
+            data-type="standard"
+            data-shape="rectangular"
+            data-theme="outline"
+            data-text="$ {button.text}"
+            data-size="large"
+            data-logo_alignment="center">
+          </div>
+          <div class="d-flex flex-column align-items-center mt-1">
+            <button class="mt-2 button btn-login" type="submit">Ingresar</button>
+          </div>
         </div>
-        <div class="d-flex flex-column align-items-center mt-1" id="form-pass">
-          <label for="pass">Contraseña</label>
-          <input class="form-control w-25" type="password" id="pass" name="password" placeholder="Contraseña" required>
-          <div class="invalid-feedback">Debe ingresar una contraseña.</div>
-        </div>
-        <div class="g_id_signin d-flex flex-column align-items-center"
-          data-type="standard"
-          data-shape="rectangular"
-          data-theme="outline"
-          data-text="$ {button.text}"
-          data-size="large"
-          data-logo_alignment="center">
-        </div>
-        <button class="mt-2 btn btn-md btn-primary" type="submit">Ingresar</button>
       </form>
       <div id="g_id_onload"
         data-client_id="466358509631-1k6tr954517r8ku98bp8qkt4aj5jdreb.apps.googleusercontent.com"
