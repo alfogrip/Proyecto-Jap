@@ -200,26 +200,95 @@ a.custom-card:hover {
   font-style: italic;
 }
 
-.add-to-cart{
+.button{
   transition-duration: 0.4s;
-  width: 100%;
-  height: 10%;
-  background-color: rgb(61, 211, 211);
   color: white;
+  background-color: #0d6efd;
   border-radius: 12px;
   border-style: none
 }
 
-.add-to-cart:hover{
+.add-to-cart{
+  width: 100%;
+  height: 10%;
+  background-color: rgb(61, 211, 211)
+  ;
+}
+
+.save-profile{
+  width: 18vw;
+  height: 8vh;
+}
+
+.btn-comment{
+  width: 18vw;
+  height: 8vh;
+}
+
+.btn-login{
+  width: 20vw;
+  height: 5vh;
+}
+
+.button:hover{
   width: 100%;
   height: 10%;
   color: black;
   background-color: white;
   border-radius: 12px;
+  border: 2px solid #0d6efd;
+}
+
+.add-to-cart:hover{
+  width: 100%;
+  height: 10%;
   border: 2px solid rgb(61, 211, 211);
 }
 
-.input-container{
+.save-profile:hover{
+  width: 18vw;
+  height: 8vh;
+}
+
+.btn-comment:hover{
+  width: 18vw;
+  height: 8vh;
+}
+
+.btn-login:hover{
+  width: 20vw;
+  height: 5vh;
+}
+
+.inv-feedback{
+  width: 100%;
+  margin-bottom: 0.50rem;
+  font-size: .875em;
+  color: #dc3545;
+}
+
+.img-profile{
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.img-profile img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-user{
+  display: flex;
+  padding-left: 50px;
+  justify-content: left;
+  align-items: center;
+}
+
+/* .input-container{
 	position: relative;
   margin-top: 20px;
 }
@@ -249,7 +318,7 @@ a.custom-card:hover {
 .input-container input:valid ~ label{
 	top: -12px;
 	font-size: 12px;
-}
+} */
 
 
 
