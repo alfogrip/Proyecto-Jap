@@ -2,9 +2,9 @@ let form = document.querySelector(".needs-validation");
 let userPersonalInfo = {
     email: '',
     password: '',
-    userName: '',
+    nickName: '',
     firstName: '',
-    secondName: '',
+    middleName: '',
     surname: '',
     secondSurname: '',
     telephone: '',
@@ -25,7 +25,6 @@ function handleCredentialResponse(response){
     const responsePayload = parseJwt(response.credential);
     localStorage.setItem("userEmail",responsePayload.email);
     window.location.href = "home.html";
-    console.log("llego")
 };
 
 document.addEventListener("DOMContentLoaded",function(){
@@ -37,8 +36,8 @@ document.addEventListener("DOMContentLoaded",function(){
             userPersonalInfo.email = document.getElementById("email").value;
             userPersonalInfo.password = document.getElementById("pass").value;
             localStorage.setItem("userPersonalInfo",JSON.stringify(userPersonalInfo));
-            form.classList.add("was-validated");
-            window.location.href = "home.html";
+            // form.classList.add("was-validated");
+            window.location.href = "index.html";
             event.preventDefault();
         }
         form.classList.add("was-validated");

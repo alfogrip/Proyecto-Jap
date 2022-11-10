@@ -1,7 +1,6 @@
 let productCost = 0;
 let productCount = 0;
 let comissionPercentage = 0.13;
-let userEmail = JSON.parse(localStorage.getItem("userPersonalInfo")).email;
 let MONEY_SYMBOL = "$";
 let DOLLAR_CURRENCY = "Dólares (USD)";
 let PESO_CURRENCY = "Pesos Uruguayos (UYU)";
@@ -30,11 +29,20 @@ function updateTotalCosts(){
 //elementos HTML presentes.
 document.addEventListener("DOMContentLoaded", function(e){
 
-    document.getElementById("profile").innerHTML = `${userEmail}`;
-
-    document.getElementById("logout").addEventListener("click", function(){
-        localStorage.clear();
-    });
+    if(JSON.parse(localStorage.getItem("userPersonalInfo")) !== null){
+        let userEmail = JSON.parse(localStorage.getItem("userPersonalInfo")).email;
+        document.getElementById("nav-profile").innerHTML = `
+        <a class="nav-link dropdown-toggle" id="profile" role="button" data-bs-toggle="dropdown" aria-expanded="false">${userEmail}</a>
+        <ul class="dropdown-menu" aria-labelledby="profile">
+            <li><a class="dropdown-item" href="cart.html"><i class="fa fa-shopping-cart"></i> Mi carrito</a></li>
+            <li><a class="dropdown-item" href="my-profile.html"><i class="fa fa-user"></i>  Mi perfil</a></li>
+            <li><a class="dropdown-item" href="login.html" id="logout"><i class="fa fa-sign-out"></i> Cerrar sesión</a></li>
+        </ul
+        `
+        document.getElementById("logout").addEventListener("click", function(){
+            localStorage.clear();
+        });
+    }; 
 
     document.getElementById("productCountInput").addEventListener("change", function(){
         productCount = this.value;
@@ -80,7 +88,8 @@ document.addEventListener("DOMContentLoaded", function(e){
         url:"/",
         autoQueue: false
     };
-    let myDropzone = new Dropzone("div#file-upload", dzoptions);    
+    let myDropzone = new Dropzone("div#file-upload", dzoptions);
+        
 
 
     //Se obtiene el formulario de publicación de producto
