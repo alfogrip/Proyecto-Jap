@@ -1,4 +1,4 @@
-let userEmail;
+let userEmail = JSON.parse(localStorage.getItem("actualUser")).email;
 let prodID = localStorage.getItem("prodID");
 let cartArticles = JSON.parse(localStorage.getItem("cartArt"));
 let productInfo = undefined;
@@ -13,6 +13,7 @@ function setNewProductID(id){
 };
 
 function addToCart(prod,count){
+
     let i = 0;
     let prodToAdd = {
         "count": count,
@@ -22,20 +23,29 @@ function addToCart(prod,count){
         "name": prod.name,
         "unitCost": prod.cost
     };
+
     if(cartArticles === null){
+
         cartArticles = [];
         cartArticles.push(prodToAdd);
         localStorage.setItem("cartArt",JSON.stringify(cartArticles));
+
     } else {
+
         while(i < cartArticles.length && cartArticles[i].id != prodToAdd.id){
             i++
         };
+
         if(i >= cartArticles.length){
+
             cartArticles.push(prodToAdd);
             localStorage.setItem("cartArt",JSON.stringify(cartArticles));
+
         } else {
+
             cartArticles[i].count += prodToAdd.count;
             localStorage.setItem("cartArt",JSON.stringify(cartArticles));
+
         };              
     };
 };
@@ -154,23 +164,26 @@ function showProduct(prod){
     document.getElementById("product-info").innerHTML = productInfo;
     document.getElementById("related-products").innerHTML = relatedProducts;
     document.getElementById("btn-add-to-cart").addEventListener("click", function(){
+        
         if(userEmail !== undefined){
+
             let amount = Math.round(document.getElementById("product-amount").value);
             addToCart(prod,amount);
-            document.getElementById("cart-alert").classList.add("alert-success");
-            document.getElementById("cart-alert").classList.add("show");
-            document.getElementById("msg-cart-alert").innerHTML = `¡El producto se agregó correctamente!`
-        } else {
-            document.getElementById("danger-alert").classList.add("alert-danger");
-            document.getElementById("danger-alert").classList.add("show");
-            document.getElementById("msg-danger-alert").innerHTML = `Debes iniciar sesión para agregar productos al carrito.`
-        };
+            alert('¡El producto se agregó correctamente!')
+
+        } else alert('Debes iniciar sesión para agregar productos al carrito.');
+
     });
+
     for(let i = 0; i < imgArray.length; i++){
+
         document.getElementById(`img${i}`).addEventListener("mouseover",function(){
             document.getElementById("main-img").src = `${imgArray[i]}`;
+
         })
+
     };
+
 };
 
 
@@ -190,15 +203,15 @@ document.addEventListener("DOMContentLoaded",function(){
         };
     });
 
-    if(JSON.parse(localStorage.getItem("userPersonalInfo")) !== null){
-        userEmail = JSON.parse(localStorage.getItem("userPersonalInfo")).email;
+    if(JSON.parse(localStorage.getItem("actualUser")) !== null){
+
         document.getElementById("nav-profile").innerHTML = `
-        <a class="nav-link dropdown-toggle" id="profile" role="button" data-bs-toggle="dropdown" aria-expanded="false">${userEmail}</a>
-        <ul class="dropdown-menu" aria-labelledby="profile">
-            <li><a class="dropdown-item" href="cart.html"><i class="fa fa-shopping-cart"></i> Mi carrito</a></li>
-            <li><a class="dropdown-item" href="my-profile.html"><i class="fa fa-user"></i>  Mi perfil</a></li>
-            <li><a class="dropdown-item" href="login.html" id="logout"><i class="fa fa-sign-out"></i> Cerrar sesión</a></li>
-        </ul
+            <a class="nav-link dropdown-toggle" id="profile" role="button" data-bs-toggle="dropdown" aria-expanded="false">${userEmail}</a>
+            <ul class="dropdown-menu" aria-labelledby="profile">
+                <li><a class="dropdown-item" href="cart.html"><i class="fa fa-shopping-cart"></i> Mi carrito</a></li>
+                <li><a class="dropdown-item" href="my-profile.html"><i class="fa fa-user"></i>  Mi perfil</a></li>
+                <li><a class="dropdown-item" href="login.html" id="logout"><i class="fa fa-sign-out"></i> Cerrar sesión</a></li>
+            </ul>
         `
         document.getElementById("logout").addEventListener("click", function(){
             localStorage.clear();
@@ -206,19 +219,20 @@ document.addEventListener("DOMContentLoaded",function(){
     };
 
     document.getElementById("add-comment").addEventListener("submit",function(event){
+
         event.preventDefault();
+
         let comment = document.getElementById("textArea").value;
         let date = new Date();
         let score = document.getElementById("select-score").value;
+
         if(comment != "" && score != 0){
             addNewComment(score,comment,date);
             document.getElementById("textArea").value = "";
             document.getElementById("select-score").value = 0;
-        } else {
-            document.getElementById("warning-alert").classList.add("alert-warning");
-            document.getElementById("warning-alert").classList.add("show");
-            document.getElementById("msg-warning-alert").innerHTML = `Por favor ingrese un comentario y un puntaje antes de enviar.`
-        };
+
+        } else alert(`Por favor ingrese un comentario y un puntaje antes de enviar.`);
+
     });
 
 });

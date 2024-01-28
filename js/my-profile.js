@@ -1,4 +1,4 @@
-let userEmail = JSON.parse(localStorage.getItem("userPersonalInfo")).email;
+let actualUser = JSON.parse(localStorage.getItem("actualUser"));
 let form = document.querySelector(".needs-validation");
 let dzoptions = {
     url:"/",
@@ -11,53 +11,51 @@ function getImgUrl(){
     return divImg.querySelector('img').src
 };
 
-function getUserInformation(){
-    userPersonalInfo = {
-        email: `${document.getElementById("inp-email").value}`,
-        nickName: `${document.getElementById("inp-nick-name").value}`,
-        firstName: `${document.getElementById("inp-name").value}`,
-        middleName: `${document.getElementById("inp-middle-name").value}`,
-        surname: `${document.getElementById("inp-surname").value}`,
-        secondSurname: `${document.getElementById("inp-second-surname").value}`,
-        telephone: `${document.getElementById("inp-tel").value}`,
-        img: `${getImgUrl()}`
-    };
-    localStorage.setItem("userPersonalInfo",JSON.stringify(userPersonalInfo));
-};
+function getAndUpdateUserInformation(){
 
+    actualUser.email = document.getElementById("inp-email").value;
+    actualUser.nickName = document.getElementById("inp-nick-name").value;
+    actualUser.firstName = document.getElementById("inp-name").value;
+    actualUser.middleName = document.getElementById("inp-middle-name").value;
+    actualUser.surname = document.getElementById("inp-surname").value;
+    actualUser.secondSurname = document.getElementById("inp-second-surname").value;
+    actualUser.telephone = document.getElementById("inp-tel").value;
+    //actualUser.img = getImgUrl();
+    localStorage.setItem("actualUser", JSON.stringify(actualUser));
+
+};
 
 document.addEventListener("DOMContentLoaded",function(){
 
-    if (JSON.parse(localStorage.getItem("userPersonalInfo")) != null){
-        userPersonalInfo = JSON.parse(localStorage.getItem("userPersonalInfo"));
-        document.getElementById("inp-email").value = userPersonalInfo.email;
-        document.getElementById("inp-nick-name").value = userPersonalInfo.nickName;
-        document.getElementById("inp-name").value = userPersonalInfo.firstName;
-        document.getElementById("inp-middle-name").value = userPersonalInfo.middleName;
-        document.getElementById("inp-surname").value = userPersonalInfo.surname;
-        document.getElementById("inp-second-surname").value = userPersonalInfo.secondSurname;
-        document.getElementById("inp-tel").value = userPersonalInfo.telephone;
-        if(userPersonalInfo.nickName !== ""){
-            document.getElementById("div-user-name").innerHTML = `<h4>${userPersonalInfo.nickName}</h4>`
-        }
-        if(userPersonalInfo.img !== ""){
-            document.getElementById("profile-img").src = userPersonalInfo.img;
-        }
-    };
+    document.getElementById("inp-email").value = actualUser.email;
+    document.getElementById("inp-nick-name").value = actualUser.nickName;
+    document.getElementById("inp-name").value = actualUser.firstName;
+    document.getElementById("inp-middle-name").value = actualUser.middleName;
+    document.getElementById("inp-surname").value = actualUser.surname;
+    document.getElementById("inp-second-surname").value = actualUser.secondSurname;
+    document.getElementById("inp-tel").value = actualUser.telephone;
+
+    if(actualUser.img !== "") document.getElementById("profile-img").src = actualUser.img
 
     document.addEventListener("submit", function(event){
+
         if(!form.checkValidity()){
+
             event.preventDefault();
             event.stopPropagation();
-        } else{
-            getUserInformation();
-        }  
+
+        } else getAndUpdateUserInformation();
+
         form.classList.add("was-validated")
     });
 
-    document.getElementById("profile").innerHTML = `${userEmail}`;
+    document.getElementById("profile").innerHTML = `${actualUser.email}`;
+
+    if(actualUser.nickName !== "") document.getElementById("div-user-name").innerHTML = `<h4>${actualUser.nickName}</h4>`
 
     document.getElementById("logout").addEventListener("click", function(){
+
         localStorage.clear();
+
     });
 });

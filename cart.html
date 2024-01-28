@@ -159,55 +159,56 @@
               id="modal-btn">Seleccionar</button>
             <div class="inv-feedback" id="invalid-modal-div"></div>
           </div>
-          <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="modalLabel"><b>Forma de pago</b></h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body mx-3">
-                  <div>
-                    <div class="mb-4">
-                      <input class="form-check-input" type="radio" name="payment-method" id="inp-credit-card" required>
-                      <label class="form-check-label" for="inp-credit-card">Tarjeta de crédito</label>
-                      <hr>
-                      <div class="row" id="div-credit-card">
-                        <div class="col-6">
-                          <label for="inp-credit-num">Número de la tarjeta</label>
-                          <input class="form-control" type="number" name="credit-num" id="inp-credit-num" required>
-                          <label class="mt-2" for="inp-credit-exp">Vencimiento (MM/AA)</label>
-                          <input class="form-control" type="text" name="credit-exp" id="inp-credit-exp"
-                            pattern="[0-12]{2}[0-99]{2}" placeholder="MMAA" required>
-                        </div>
-                        <div class="col-5">
-                          <label for="inp-credit-cod">Número de seg.</label>
-                          <input class="form-control" type="number" name="credit-cod" id="inp-credit-cod" required>
+          <form action="" method="get"> 
+            <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel"><b>Forma de pago</b></h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button> 
+                  </div>
+                  <div class="modal-body mx-3">
+                    <div>
+                      <div class="mb-4">
+                        <input class="form-check-input" type="radio" name="payment-method" id="inp-credit-card" required>
+                        <label class="form-check-label" for="inp-credit-card">Tarjeta de crédito</label>
+                        <hr>
+                        <div class="row" id="div-credit-card">
+                          <div class="col-6">
+                            <label for="inp-credit-num">Número de la tarjeta</label>
+                            <input class="form-control" type="tel" name="credit-num" id="inp-credit-num"  inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx" required>
+                            <label class="mt-2" for="inp-credit-exp">Vencimiento (MM/AA)</label>
+                            <input class="form-control" type="text" name="credit-exp" id="inp-credit-exp"
+                              pattern="[0-9]{1,2}/[0-9]{1,2}" placeholder="MM/AA" required>
+                          </div>
+                          <div class="col-5">
+                            <label for="inp-credit-cod">Número de seg.</label>
+                            <input class="form-control" type="tel" name="credit-cod" id="inp-credit-cod" pattern="[0-9]{3}" placeholder="123" required>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="mb-4">
-                      <input class="form-check-input" type="radio" name="payment-method" id="inp-bank" required>
-                      <label class="form-check-label" for="inp-bank">Transferencia bancaria</label>
-                      <hr>
-                      <div id="div-bank">
-                        <label for="inp-bank-num">Número de cuenta</label>
-                        <input class="form-control w-50" type="text" name="bank-num" id="inp-bank-num" required>
+                      <div class="mb-4">
+                        <input class="form-check-input" type="radio" name="payment-method" id="inp-bank" required>
+                        <label class="form-check-label" for="inp-bank">Transferencia bancaria</label>
+                        <hr>
+                        <div id="div-bank">
+                          <label for="inp-bank-num">Número de cuenta</label>
+                          <input class="form-control w-50" type="text" name="bank-num" id="inp-bank-num" required>
+                        </div>
                       </div>
+                    </div </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
                     </div>
-                  </div </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Guardar</button>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
           <div id="div-button">
             <button type="submit" class="btn btn-lg btn-primary w-100" id="btn-cart">Finalizar compra</button>
           </div>
       </form>
-
     </div>
   </main>
   <footer class="text-muted">

@@ -4,16 +4,17 @@ const form = document.getElementById("cart-form");
 const divCart = document.getElementById("div-cart");
 const divDeliveryOptions = document.getElementById("del-options");
 const divPayment = document.getElementById("div-payment");
-let userEmail = JSON.parse(localStorage.getItem("userPersonalInfo")).email;
-let cartArrayJSON = [];
-let currentCartArray = [];
-let productsToAdd = JSON.parse(localStorage.getItem("cartArt"));
-let CART_USER = `${CART_INFO_URL}25801${EXT_TYPE}`;
+let userEmail = JSON.parse(localStorage.getItem("actualUser")).email;
+let cartArticles = JSON.parse(localStorage.getItem("cartArt"));
+//let cartArrayJSON = [];
+//let currentCartArray = [];
+//let CART_USER = `${CART_INFO_URL}25801${EXT_TYPE}`;
 
 function validation(){
     let form = document.querySelector(".needs-validation");
     let creditCardOption = document.getElementById("inp-credit-card");
     let bankOption = document.getElementById("inp-bank");
+    
     document.addEventListener("submit",function(event){
         event.preventDefault()
         event.stopPropagation()
@@ -36,9 +37,9 @@ function validation(){
     };
 
 function deleteProdFromCart(prod){
-    currentCartArray = currentCartArray.filter(elem => elem.id != prod.id)
-    productsToAdd = productsToAdd.filter(elem => elem.id != prod.id)
-    localStorage.setItem("cartArt",JSON.stringify(productsToAdd))
+    //currentCartArray = currentCartArray.filter(elem => elem.id != prod.id);
+    cartArticles = cartArticles.filter(elem => elem.id != prod.id);
+    localStorage.setItem("cartArt",JSON.stringify(cartArticles));
 };
 
 function calculateSubtotal(){
@@ -73,40 +74,42 @@ function calculateDeliveryCost(total){
 function showTotalCost(){
     let totalPrice = calculateSubtotal();
     let deliveryCost = calculateDeliveryCost(totalPrice);
+
     document.getElementById("products-total").innerHTML = `
-    <p class="m-0">USD${totalPrice}</p>
-    `
+        <p class="m-0">USD${totalPrice}</p>
+        `
     document.getElementById("delivery-cost").innerHTML = `
-    <p class="m-0">USD${deliveryCost}</p>
-    `
+        <p class="m-0">USD${deliveryCost}</p>
+        `
     document.getElementById("cart-total").innerHTML = `
-    <p class="m-0">USD${totalPrice + deliveryCost}</p>
-    `
+        <p class="m-0">USD${totalPrice + deliveryCost}</p>
+        `
     divCart.addEventListener("click",function(){
         totalPrice = calculateSubtotal();
         deliveryCost = calculateDeliveryCost(totalPrice);
         document.getElementById("products-total").innerHTML = `
-        <p class="m-0">USD${totalPrice}</p>
-        `
+            <p class="m-0">USD${totalPrice}</p>
+            `
         document.getElementById("delivery-cost").innerHTML = `
-        <p class="m-0">USD${deliveryCost}</p>
-        `
+            <p class="m-0">USD${deliveryCost}</p>
+            `
         document.getElementById("cart-total").innerHTML = `
-        <p class="m-0">USD${totalPrice + deliveryCost}</p>
-        `
+            <p class="m-0">USD${totalPrice + deliveryCost}</p>
+            `
     });
     divDeliveryOptions.addEventListener("change",function(){
         deliveryCost = calculateDeliveryCost(totalPrice);
         document.getElementById("delivery-cost").innerHTML = `
-        <p class="m-0">USD${deliveryCost}</p>
-        `
+            <p class="m-0">USD${deliveryCost}</p>
+            `
         document.getElementById("cart-total").innerHTML = `
-        <p class="m-0">USD${totalPrice + deliveryCost}</p>
-        `
+            <p class="m-0">USD${totalPrice + deliveryCost}</p>
+            `
     });
 };
 
 function payment(){
+
     let creditRadio = divPayment.querySelector("#inp-credit-card");
     let bankRadio = divPayment.querySelector("#inp-bank");
     let divCredit = divPayment.querySelector("#div-credit-card");
@@ -114,18 +117,21 @@ function payment(){
     let creditInputs = divCredit.querySelectorAll("input");
     let bankInput = divBank.querySelector("input");
     let div = divPayment.querySelector("#payment-method");
+
     creditRadio.addEventListener("change",function(){
+
         if(creditRadio.checked){
             bankInput.setAttribute("disabled","true");
             creditInputs.forEach(element => {
                 element.removeAttribute("disabled");
             });
             div.innerHTML = `
-            <label class="form-check-label" for="modal-btn" data-option="bank">Tarjeta de crédito</label>
-            <button type="button" class="btn btn-link ps-0" data-bs-toggle="modal" data-bs-target="#modal">Seleccionar</button>
+                <label class="form-check-label" for="modal-btn" data-option="bank">Tarjeta de crédito</label>
+                <button type="button" class="btn btn-link ps-0" data-bs-toggle="modal" data-bs-target="#modal">Seleccionar</button>
             `
         };
     });
+
     bankRadio.addEventListener("change",function(){
         if(bankRadio.checked){
             bankInput.removeAttribute("disabled");
@@ -133,86 +139,103 @@ function payment(){
                 element.setAttribute("disabled","true");
             });
             div.innerHTML = `
-            <label class="form-check-label" for="modal-btn" data-option="bank">Transferencia bancaria</label>
-            <button type="button" class="btn btn-link ps-0" data-bs-toggle="modal" data-bs-target="#modal">Seleccionar</button>
+                <label class="form-check-label" for="modal-btn" data-option="bank">Transferencia bancaria</label>
+                <button type="button" class="btn btn-link ps-0" data-bs-toggle="modal" data-bs-target="#modal">Seleccionar</button>
             `
         }
     })
 };
 
 function showCartArticles(array){
+
     let listOfArticles = document.getElementById("cart-list");
     let listHeader = document.getElementById("cart-list-header");
+    
     for(let i = 0; i < array.length; i++){
+
         let article = document.createElement("li");
+
         article.classList.add("list-group-item")
         article.innerHTML = `
-        <div class="row d-flex align-items-center">
-            <div class="col-2">
-                <img src="${array[i].image}" class="img-thumbnail" alt="imagen del producto">
-            </div>
-            <div class="col d-flex justify-content-center">
-                <p class="m-0">${array[i].name}</p>
-            </div>
-            <div class="col d-flex justify-content-center">
-                <p class="m-0">${array[i].currency}${array[i].unitCost}</p>
-            </div>
-            <div class="col d-flex justify-content-center">
-                <div class="col-5">
-                    <input class="form-control" type="number" value="${array[i].count}" min="1" required>
+            <div class="row d-flex align-items-center">
+                <div class="col-2">
+                    <img src="${array[i].image}" class="img-thumbnail" alt="imagen del producto">
+                </div>
+                <div class="col d-flex justify-content-center">
+                    <p class="m-0">${array[i].name}</p>
+                </div>
+                <div class="col d-flex justify-content-center">
+                    <p class="m-0">${array[i].currency}${array[i].unitCost}</p>
+                </div>
+                <div class="col d-flex justify-content-center">
+                    <div class="col-5">
+                        <input class="form-control" type="number" value="${array[i].count}" min="1" required>
+                    </div>
+                </div>
+                <div class="col d-flex justify-content-center sub-total" data-currency="${array[i].currency}" data-subtotal="${array[i].unitCost*array[i].count}">
+                    <p class="m-0">${array[i].currency}${array[i].unitCost * array[i].count}</p>
+                </div>
+                <div class="col-1">
+                    <button class="btn-check" id="btn-delete${i}"></button>
+                    <label class="btn btn-light" for="btn-delete${i}"><i class="fa fa-trash-o"></i></label>
                 </div>
             </div>
-            <div class="col d-flex justify-content-center sub-total" data-currency="${array[i].currency}" data-subtotal="${array[i].unitCost*array[i].count}">
-                <p class="m-0">${array[i].currency}${array[i].unitCost * array[i].count}</p>
-            </div>
-            <div class="col-1">
-                <button class="btn-check" id="btn-delete${i}"></button>
-                <label class="btn btn-light" for="btn-delete${i}"><i class="fa fa-trash-o"></i></label>
-            </div>
-        </div>
-        `
+            `
+
         listOfArticles.appendChild(article);
+
         article.addEventListener("input",function(){
-            let quantity = parseInt(article.querySelector("input").value)
+
+            let quantity = parseInt(article.querySelector("input").value);
             let productTotal = quantity * array[i].unitCost;
             let div = article.querySelector("div.sub-total");
-            div.setAttribute("data-subtotal",productTotal);
+            div.setAttribute("data-subtotal", productTotal);
             div.innerHTML = `<p class="m-0">${array[i].currency}${productTotal}</p>`
+
         });
-        article.querySelector("button").addEventListener("click",function(){
+
+        article.querySelector("button").addEventListener("click", function(){
+
             deleteProdFromCart(array[i]);
             listOfArticles.removeChild(article);
-            if(currentCartArray.length == 0){
-                listOfArticles.removeChild(listHeader);
-            };
+            //if(currentCartArray.length == 0) listOfArticles.removeChild(listHeader);
+            if(cartArticles.length == 0) listOfArticles.removeChild(listHeader);
+
         });
+
     };
+
     divCart.appendChild(listOfArticles);
     showTotalCost();
     payment();
     validation();
 };
 
-function addAndShowCartArticles(array){
-    if(productsToAdd == null){
-        showCartArticles(array);
-    } else {
+/*function addAndShowCartArticles(array){
+
+    if(cartArticles == null) showCartArticles(array); //si no hay nada, que no muestre nada
+        
+    else {
+
         currentCartArray = array;
-        for(product of productsToAdd){
+        for(product of cartArticles){
             currentCartArray.push(product);
         }
         showCartArticles(currentCartArray);
+
     };
-};
+};*/
 
 document.addEventListener("DOMContentLoaded", function(){
 
-    getJSONData(CART_USER).then(objCartArticles => { 
+    /*getJSONData(CART_USER).then(objCartArticles => { 
         if (objCartArticles.status === "ok") {
             cartArrayJSON = objCartArticles.data.articles;
             addAndShowCartArticles(cartArrayJSON);
         };
-    });
+    });*/
+
+    showCartArticles(cartArticles);
 
     document.getElementById("profile").innerHTML = `${userEmail}`;
 
